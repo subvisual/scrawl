@@ -1,2 +1,13 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
+
+    console.log(data)
+</script>
+
+<h1>Scrawl</h1>
+
+{#each data.notes as note}
+	<p>{note.name}</p>
+{/each}

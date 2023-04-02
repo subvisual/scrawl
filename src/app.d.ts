@@ -1,10 +1,26 @@
+/* import { ExternalProvider } from '@ethersproject/providers'; */
+
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare global {
+	interface Window {
+		ethereum: any;
+	}
+
 	namespace App {
 		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
+		interface Locals {
+			user: {
+				address: string;
+				key: string;
+			};
+		}
+		interface PageData {
+			user?: {
+				address: string;
+				key: string;
+			};
+		}
 		// interface Platform {}
 	}
 }
