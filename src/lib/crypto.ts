@@ -1,11 +1,15 @@
-import cryptojs from 'crypto-js';
+import { RC4, enc } from 'crypto-js';
+
+const IV = enc.Utf8.parse('123');
 
 export const encrypt = (data: string, key: string) => {
 	if (!data) {
 		return data;
 	}
 
-	return cryptojs.AES.encrypt(data, key).toString();
+	return RC4.encrypt(data, enc.Utf8.parse(key), {
+		iv: IV
+	}).toString();
 };
 
 export const decrypt = (encData: string, key: string) => {
@@ -13,5 +17,27 @@ export const decrypt = (encData: string, key: string) => {
 		return encData;
 	}
 
-	return cryptojs.AES.decrypt(encData, key).toString(cryptojs.enc.Utf8);
+	return RC4.decrypt(encData, enc.Utf8.parse(key), {
+		iv: IV
+	}).toString(enc.Utf8);
 };
+
+function bulk(fields: Record<string, string>, fn: (val: string) => string) {
+	const out = { ...fields };
+
+	for (const field in fields) {
+		if (field !== 'id') {
+			out[field] = fn(out[field]);
+		}
+	}
+
+	return out;
+}
+
+export function decryptFields(key: string, fields: Record<string, string>) {
+	return bulk(fields, (val) => decrypt(val, key));
+}
+
+export function encryptFields(key: string, fields: Record<string, string>) {
+	return bulk(fields, (val) => encrypt(val, key));
+}

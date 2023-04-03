@@ -8,8 +8,6 @@ export const handle = (async ({ event, resolve }) => {
 		return resolve(event);
 	}
 
-	console.log(`HOOK for ${event.url.pathname}, has user? ${!!user}`);
-
 	if (user) {
 		event.locals.user = user;
 	}

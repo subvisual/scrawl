@@ -4,13 +4,15 @@
 	export let data: LayoutData;
 
 	let notes = data?.notes || [];
-
-	console.log(data);
 </script>
 
 <h1>Scrawl</h1>
 <a href="/new">New note</a>
 
-{#each notes as note}
-	<p>{note.name}</p>
-{/each}
+<div>
+	{#each notes as note}
+		<p>
+			<a href="/{note.slug}">{note.name}</a>
+		</p>
+	{/each}
+</div>

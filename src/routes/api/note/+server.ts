@@ -1,6 +1,7 @@
 import { getUserFromCookies } from '$lib/cookies';
 import { createNote, updateNote } from '$lib/db';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
+import { generateSlug } from 'random-word-slugs';
 
 export const POST = (async ({ cookies }) => {
 	const user = getUserFromCookies(cookies);
@@ -9,13 +10,14 @@ export const POST = (async ({ cookies }) => {
 		throw error(401, 'No user');
 	}
 
-	const note = await createNote({});
+	const slug = generateSlug();
+	const note = await createNote(user, { user: user.address, slug });
 
 	if (!note.data) {
 		throw error(500, 'Failed to create note');
 	}
 
-	return json({ id: note.data[0].id });
+	return json({ id: note.data[0].id, slug });
 }) satisfies RequestHandler;
 
 export const PUT = (async ({ request, cookies }) => {
@@ -27,9 +29,7 @@ export const PUT = (async ({ request, cookies }) => {
 
 	const data = await request.json();
 
-	console.log(data);
-
-	const update = await updateNote(data.id, user.key, data);
+	const update = await updateNote(user, data.id, data);
 
 	return json(update);
 }) satisfies RequestHandler;

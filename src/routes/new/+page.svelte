@@ -4,12 +4,12 @@
 	import { onMount } from 'svelte';
 
 	onMount(async () => {
-		const note = await api.post<{ id: string }>('/api/note', {
+		const note = await api.post<{ id: string; slug: string }>('/api/note', {
 			method: 'post'
 		});
 
 		if (note?.id) {
-			goto(`/${note.id}`);
+			goto(`/${note.slug}`);
 		}
 	});
 </script>

@@ -6,8 +6,6 @@
 
 	$: ({ note } = data);
 
-    console.log(note)
-
 	let local = {
 		name: data.note?.name || 'Untitled',
 		content: data.note?.content || 'Nothing yet'

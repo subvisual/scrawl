@@ -10,18 +10,19 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 		throw redirect(302, '/');
 	}
 
-	const data = await getNote(user.address, user.key, params.id);
+	const data = await getNote(user, params.slug);
 	const note = data?.[0];
 
 	if (!note) {
 		return {
-			id: params.id,
+			slug: params.slug,
 			notFound: true
 		};
 	}
 
 	return {
-		id: params.id,
+		slug: params.slug,
+		id: note.id,
 		note: {
 			name: note.name,
 			content: note.content

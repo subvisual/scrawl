@@ -9,7 +9,7 @@ export const load = (async ({ locals, cookies }) => {
 		return {};
 	}
 
-	const notes = await getNotes(user.address, user.key);
+	const notes = await getNotes(user);
 
 	return {
 		user: locals.user,

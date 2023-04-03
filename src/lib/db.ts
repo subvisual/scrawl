@@ -1,4 +1,4 @@
-import { decrypt, encrypt } from './crypto';
+import { decryptFields, encrypt, encryptFields } from './crypto';
 import supabase from './supabase';
 
 export type User = {
@@ -10,15 +10,17 @@ export async function getUser(id: string) {
 	return supabase.from('users').select('*').eq('signature', id);
 }
 
-export async function createUser(address: string, key: string) {
-	return supabase.from('users').insert([{ signature: address, key }]);
+export async function createUser(user: User) {
+	return supabase
+		.from('users')
+		.insert([{ signature: user.address, key: user.key }]);
 }
 
-export async function getNotes(address: string, key: string) {
+export async function getNotes(user: User) {
 	const { data } = await supabase
 		.from('notes')
 		.select(`id, name, folder, tags, slug`)
-		.eq('user', address);
+		.eq('user', user.address);
 
 	if (!data) {
 		return null;
@@ -26,22 +28,30 @@ export async function getNotes(address: string, key: string) {
 
 	return data.map((note) => ({
 		...note,
-		name: decrypt(note.name, key),
-		folder: decrypt(note.folder, key),
-		tags: decrypt(note.tags, key),
-		slug: decrypt(note.slug, key)
+		...decryptFields(user.key, note)
 	}));
 }
 
-export async function createNote(params: Partial<NoteType>) {
-	return supabase.from('notes').insert([params]).select('id');
+export async function createNote(user: User, params: Partial<NoteType>) {
+	return supabase
+		.from('notes')
+		.insert([
+			{
+				user: params.user,
+				slug: encrypt(params.slug || '', user.key)
+			}
+		])
+		.select('id, slug');
 }
 
-export async function getNote(address: string, key: string, id: string) {
+export async function getNote(user: User, slug: string) {
 	const { data } = await supabase
 		.from('notes')
 		.select(`id, name, folder, tags, slug, content`)
-		.eq('id', id);
+		.match({
+			slug: encrypt(slug, user.key),
+			user: user.address
+		});
 
 	if (!data) {
 		return null;
@@ -49,25 +59,18 @@ export async function getNote(address: string, key: string, id: string) {
 
 	return data.map((note) => ({
 		...note,
-		name: decrypt(note.name, key),
-		folder: decrypt(note.folder, key),
-		tags: decrypt(note.tags, key),
-		slug: decrypt(note.slug, key),
-		content: decrypt(note.content, key)
+		...decryptFields(user.key, note)
 	}));
 }
 
 export async function updateNote(
+	user: User,
 	id: string,
-	key: string,
 	params: Record<string, string>
 ) {
-	const data = {
-		content: encrypt(params.content, key),
-		name: encrypt(params.name, key)
-	};
+	const data = encryptFields(user.key, params);
 
-	return supabase.from('notes').update([data]).match({ id }).select();
+	return supabase.from('notes').update([data]).match({ id }).select('id');
 }
 
 /* 
