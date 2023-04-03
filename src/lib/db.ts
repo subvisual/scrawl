@@ -1,4 +1,4 @@
-import { decrypt } from './crypto';
+import { decrypt, encrypt } from './crypto';
 import supabase from './supabase';
 
 export type User = {
@@ -24,8 +24,6 @@ export async function getNotes(address: string, key: string) {
 		return null;
 	}
 
-	console.log(data)
-
 	return data.map((note) => ({
 		...note,
 		name: decrypt(note.name, key),
@@ -35,13 +33,45 @@ export async function getNotes(address: string, key: string) {
 	}));
 }
 
-/* export async function createNote(params: Record<string, string>) {
-	return supabase.from('notes').insert([params]);
+export async function createNote(params: Partial<NoteType>) {
+	return supabase.from('notes').insert([params]).select('id');
 }
 
-export async function updateNote(id: string, params: Record<string, string>) {
-	return supabase.from('notes').update([params]).match({ id });
+export async function getNote(address: string, key: string, id: string) {
+	const { data } = await supabase
+		.from('notes')
+		.select(`id, name, folder, tags, slug, content`)
+		.eq('id', id);
+
+	if (!data) {
+		return null;
+	}
+
+	return data.map((note) => ({
+		...note,
+		name: decrypt(note.name, key),
+		folder: decrypt(note.folder, key),
+		tags: decrypt(note.tags, key),
+		slug: decrypt(note.slug, key),
+		content: decrypt(note.content, key)
+	}));
 }
+
+export async function updateNote(
+	id: string,
+	key: string,
+	params: Record<string, string>
+) {
+	const data = {
+		content: encrypt(params.content, key),
+		name: encrypt(params.name, key)
+	};
+
+	return supabase.from('notes').update([data]).match({ id }).select();
+}
+
+/* 
+
 
 export async function deleteNote(id: string) {
 	return supabase.from('notes').delete().match({ id });
@@ -89,13 +119,6 @@ export async function getNotesBySig(sig: string) {
 		.from('notes')
 		.select(`id, name, folder, tags, slug`)
 		.eq('user', sig);
-}
-
-export async function getNote(id: string) {
-	return supabase
-		.from('notes')
-		.select(`id, name, folder, tags, slug, content`)
-		.eq('id', id);
 }
 
 export async function getPublicNotesBySig(sig: string) {

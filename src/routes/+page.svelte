@@ -3,11 +3,14 @@
 
 	export let data: LayoutData;
 
-    console.log(data)
+	let notes = data?.notes || [];
+
+	console.log(data);
 </script>
 
 <h1>Scrawl</h1>
+<a href="/new">New note</a>
 
-{#each data.notes as note}
+{#each notes as note}
 	<p>{note.name}</p>
 {/each}

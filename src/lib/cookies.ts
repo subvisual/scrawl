@@ -1,6 +1,8 @@
 import type { Cookies } from '@sveltejs/kit';
 
-export function getUserFromCookies(cookies: Cookies) {
+export function getUserFromCookies(
+	cookies: Cookies
+): null | App.Locals['user'] {
 	const user = cookies.get('user');
 
 	if (!user) {
