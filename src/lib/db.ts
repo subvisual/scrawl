@@ -35,12 +35,7 @@ export async function getNotes(user: User) {
 export async function createNote(user: User, params: Partial<NoteType>) {
 	return supabase
 		.from('notes')
-		.insert([
-			{
-				user: params.user,
-				slug: encrypt(params.slug || '', user.key)
-			}
-		])
+		.insert([encryptFields(user.key, params)])
 		.select('id, slug');
 }
 
@@ -66,11 +61,11 @@ export async function getNote(user: User, slug: string) {
 export async function updateNote(
 	user: User,
 	id: string,
-	params: Record<string, string>
+	params: Partial<NoteType>
 ) {
 	const data = encryptFields(user.key, params);
 
-	return supabase.from('notes').update([data]).match({ id }).select('id');
+	return supabase.from('notes').update([data]).match({ id }).select('id, slug');
 }
 
 /* 

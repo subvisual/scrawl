@@ -10,8 +10,20 @@ export const POST = (async ({ cookies }) => {
 		throw error(401, 'No user');
 	}
 
-	const slug = generateSlug();
-	const note = await createNote(user, { user: user.address, slug });
+	const slug = generateSlug(3, {
+		format: 'kebab',
+		partsOfSpeech: ['adjective', 'adjective', 'noun'],
+		categories: {
+			adjective: ['color', 'appearance'],
+			noun: ['animals']
+		}
+	});
+	
+	const note = await createNote(user, {
+		user: user.address,
+		slug,
+		name: slug
+	});
 
 	if (!note.data) {
 		throw error(500, 'Failed to create note');

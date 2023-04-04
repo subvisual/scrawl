@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import { api } from '$lib/api';
 	import { onMount } from 'svelte';
 
@@ -9,6 +9,7 @@
 		});
 
 		if (note?.id) {
+			await invalidate('notes:all');
 			goto(`/${note.slug}`);
 		}
 	});

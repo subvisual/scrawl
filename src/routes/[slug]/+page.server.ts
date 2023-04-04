@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 	}
 
 	const data = await getNote(user, params.slug);
-	const note = data?.[0];
+	const note = data?.[0] as NoteType;
 
 	if (!note) {
 		return {
@@ -23,9 +23,6 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 	return {
 		slug: params.slug,
 		id: note.id,
-		note: {
-			name: note.name,
-			content: note.content
-		}
+		note
 	};
 };
