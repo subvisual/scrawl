@@ -26,7 +26,7 @@ function bulk(fields: Record<string, string>, fn: (val: string) => string) {
 	const out = { ...fields };
 
 	for (const field in fields) {
-		if (field !== 'id' && field !== 'user') {
+		if (field !== 'id' && field !== 'user' && field !== 'folder') {
 			out[field] = fn(out[field]);
 		}
 	}
@@ -34,7 +34,7 @@ function bulk(fields: Record<string, string>, fn: (val: string) => string) {
 	return out;
 }
 
-export function decryptFields(key: string, fields: Record<string, string>) {
+export function decryptFields<T>(key: string, fields: Record<string, string>) {
 	return bulk(fields, (val) => decrypt(val, key));
 }
 

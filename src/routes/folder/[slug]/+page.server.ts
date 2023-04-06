@@ -1,5 +1,5 @@
 import { getUserFromCookies } from '$lib/cookies';
-import { getNote, updateNote } from '$lib/db';
+import { getFolder, getNote, updateNote } from '$lib/db';
 import { redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
@@ -10,10 +10,23 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 		throw redirect(302, '/');
 	}
 
-	const data = await getNote(user, params.slug);
-	const note = data?.[0] as NoteType;
+	const data = await getFolder(user, params.slug);
+	const folder = data?.[0];
 
-	if (!note) {
+	if (!folder) {
+		return {
+			notFound: true
+		};
+	}
+
+	return {
+		id: folder.id,
+		name: folder.name,
+		notes: folder.notes
+	};
+
+	/* 
+	if (!folder) {
 		return {
 			slug: params.slug,
 			notFound: true
@@ -22,7 +35,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 
 	return {
 		slug: params.slug,
-		id: note.id,
-		note
-	};
+        id: folder.id,
+		 folder 
+	}; */
 };

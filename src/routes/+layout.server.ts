@@ -1,4 +1,4 @@
-import { getNotes } from '$lib/db';
+import { getFolders, getNotes } from '$lib/db';
 import { getUserFromCookies } from '$lib/cookies';
 import type { LayoutServerLoad } from './$types';
 
@@ -12,9 +12,11 @@ export const load = (async ({ locals, cookies, depends }) => {
 	depends('notes:all');
 
 	const notes = await getNotes(user);
+	const folders = await getFolders(user) || [];
 
 	return {
 		user: locals.user,
-		notes: notes || []
+		notes: notes || [],
+		folders: folders || []
 	};
 }) satisfies LayoutServerLoad;

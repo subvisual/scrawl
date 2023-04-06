@@ -8,6 +8,7 @@ type FolderType = {
 	id: string;
 	name: string;
 	user: string;
+	slug: string;
 };
 
 type NoteType = {

@@ -20,6 +20,7 @@ declare global {
 				address: string;
 				key: string;
 			};
+			notes?: NoteType[];
 		}
 		// interface Platform {}
 	}

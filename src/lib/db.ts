@@ -1,4 +1,4 @@
-import { decryptFields, encrypt, encryptFields } from './crypto';
+import { decrypt, decryptFields, encrypt, encryptFields } from './crypto';
 import supabase from './supabase';
 
 export type User = {
@@ -66,6 +66,57 @@ export async function updateNote(
 	const data = encryptFields(user.key, params);
 
 	return supabase.from('notes').update([data]).match({ id }).select('id, slug');
+}
+
+export async function getFolders(user: User) {
+	const { data } = await supabase
+		.from('folders')
+		.select(`id, name, slug`)
+		.eq('user', user.address);
+
+	if (!data) {
+		return null;
+	}
+
+	return data.map((folder) => decryptFields(user.key, folder));
+}
+
+export async function getFolder(user: User, slug: string) {
+	const { data, error } = await supabase
+		.from('folders')
+		.select(
+			`
+			id, name, slug,
+			notes (
+				id, slug, name
+			)
+			`
+		)
+		.match({
+			slug: encrypt(slug, user.key),
+			user: user.address
+		});
+
+	if (!data) {
+		return null;
+	}
+
+	return data.map((folder) => ({
+		id: folder.id,
+		name: decrypt(folder.name, user.key),
+		slug: decrypt(folder.slug, user.key),
+		notes: (folder.notes as any).map((note: any) => ({
+			...note,
+			...decryptFields(user.key, note)
+		}))
+	}));
+}
+
+export async function createFolder(user: User, params: Partial<FolderType>) {
+	return supabase
+		.from('folders')
+		.insert([encryptFields(user.key, params)])
+		.select('id');
 }
 
 /* 
