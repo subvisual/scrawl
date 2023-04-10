@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { ROUTES } from '$lib/routes';
 	import type { ActionData, LayoutData } from './$types';
 
 	export let data: LayoutData;
@@ -16,7 +17,7 @@
 <div>
 	{#each notes as note}
 		<p>
-			<a href="/{note.slug}">{note.name}</a>
+			<a href={ROUTES.note(note.slug)}>{note.name}</a>
 		</p>
 	{/each}
 </div>
@@ -25,7 +26,7 @@
 <div>
 	{#each folders as folder}
 		<p>
-			<a href="/folder/{folder.slug}">{folder.name}</a>
+			<a href={ROUTES.folder(folder.slug)}>{folder.name}</a>
 		</p>
 	{/each}
 </div>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto, invalidate } from '$app/navigation';
 	import { api } from '$lib/api';
+	import { ROUTES } from '$lib/routes';
 	import { onMount } from 'svelte';
 
 	onMount(async () => {
@@ -10,7 +11,7 @@
 
 		if (note?.id) {
 			await invalidate('notes:all');
-			goto(`/${note.slug}`);
+			goto(ROUTES.note(note.slug));
 		}
 	});
 </script>

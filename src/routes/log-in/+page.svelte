@@ -2,6 +2,7 @@
 	import { ethers } from 'ethers';
 	import { goto } from '$app/navigation';
 	import { v4 as uuidv4 } from 'uuid';
+	import { ROUTES } from '$lib/routes';
 
 	async function getOrCreateUser(address: string) {
 		const userReq = await fetch(`/api/auth?id=${address}`);
@@ -48,7 +49,7 @@
 			})
 		});
 
-		goto('/', {
+		goto(ROUTES.home, {
 			invalidateAll: true
 		});
 	}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { ROUTES } from '$lib/routes';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -9,7 +10,7 @@
 
 {#each $page.data.notes || [] as note}
 	<p>
-		<a href={`/${note.slug}`}>
+		<a href={ROUTES.note(note.slug)}>
 			{note.name}
 		</a>
 	</p>
