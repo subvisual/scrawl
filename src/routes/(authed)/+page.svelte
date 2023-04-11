@@ -9,10 +9,10 @@
 	let folders = data?.folders || [];
 </script>
 
-<h1>Scrawl</h1>
+<!-- <h1>Scrawl</h1>
 <a href="/new">New note</a>
 
-<h2>Notes</h2>
+<h2>Notes</h2>e
 <div>
 	{#each notes as note}
 		<p>
@@ -49,3 +49,4 @@
 		<p>{form?.message}</p>
 	{/if}
 </div>
+ -->

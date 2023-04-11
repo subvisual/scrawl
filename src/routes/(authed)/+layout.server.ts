@@ -6,13 +6,17 @@ export const load = (async ({ locals, cookies, depends }) => {
 	const user = getUserFromCookies(cookies);
 
 	if (!user) {
-		return {};
+		return {
+			user: undefined,
+			notes: [],
+			folders: []
+		};
 	}
 
 	depends('notes:all');
 
 	const notes = await getNotes(user);
-	const folders = await getFolders(user) || [];
+	const folders = await getFolders(user);
 
 	return {
 		user: locals.user,

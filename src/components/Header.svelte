@@ -1,0 +1,1 @@
+<div class="h-12 w-full bg-surface-700"></div>

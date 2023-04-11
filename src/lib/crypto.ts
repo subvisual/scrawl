@@ -35,7 +35,7 @@ function bulk(fields: Record<string, string>, fn: (val: string) => string) {
 }
 
 export function decryptFields<T>(key: string, fields: Record<string, string>) {
-	return bulk(fields, (val) => decrypt(val, key));
+	return bulk(fields, (val) => decrypt(val, key)) as T;
 }
 
 export function encryptFields(key: string, fields: Record<string, string>) {

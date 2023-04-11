@@ -17,8 +17,8 @@ type NoteType = {
 	slug: string;
 	folder: string;
 	tags: string;
-	content: string;
-	user: string;
+	content?: string;
+	user?: string;
 };
 
 type PublicNoteType = {

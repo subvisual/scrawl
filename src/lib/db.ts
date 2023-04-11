@@ -28,7 +28,7 @@ export async function getNotes(user: User) {
 
 	return data.map((note) => ({
 		...note,
-		...decryptFields(user.key, note)
+		...decryptFields<NoteType>(user.key, note)
 	}));
 }
 
@@ -54,7 +54,7 @@ export async function getNote(user: User, slug: string) {
 
 	return data.map((note) => ({
 		...note,
-		...decryptFields(user.key, note)
+		...decryptFields<NoteType>(user.key, note)
 	}));
 }
 
@@ -78,7 +78,7 @@ export async function getFolders(user: User) {
 		return null;
 	}
 
-	return data.map((folder) => decryptFields(user.key, folder));
+	return data.map((folder) => decryptFields<FolderType>(user.key, folder));
 }
 
 export async function getFolder(user: User, slug: string) {
@@ -107,7 +107,7 @@ export async function getFolder(user: User, slug: string) {
 		slug: decrypt(folder.slug, user.key),
 		notes: (folder.notes as any).map((note: any) => ({
 			...note,
-			...decryptFields(user.key, note)
+			...decryptFields<FolderType>(user.key, note)
 		}))
 	}));
 }

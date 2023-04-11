@@ -20,7 +20,8 @@ declare global {
 				address: string;
 				key: string;
 			};
-			notes?: NoteType[];
+			notes: NoteType[];
+			folders: FolderType[];
 		}
 		// interface Platform {}
 	}
