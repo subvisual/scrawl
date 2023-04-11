@@ -20,7 +20,8 @@ export async function getNotes(user: User) {
 	const { data } = await supabase
 		.from('notes')
 		.select(`id, name, folder, tags, slug`)
-		.eq('user', user.address);
+		.eq('user', user.address)
+		.order('created_at', { ascending: false });
 
 	if (!data) {
 		return null;
@@ -72,7 +73,8 @@ export async function getFolders(user: User) {
 	const { data } = await supabase
 		.from('folders')
 		.select(`id, name, slug`)
-		.eq('user', user.address);
+		.eq('user', user.address)
+		.order('created_at', { ascending: false });
 
 	if (!data) {
 		return null;
