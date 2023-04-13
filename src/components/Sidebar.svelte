@@ -29,8 +29,8 @@
 		onNewFolder={toggleFolderForm}
 	/>
 	<nav
-		class="py-10 flex-1 border-l border-surface-700 overflow-hidden transition-all w-[320px]"
-		style="max-width: {isOpen ? '300px' : '0'}"
+		class="py-10 flex-1 border-l border-surface-700 overflow-hidden sidebar max-w-[290px] w-[290px]"
+		class:collapsed={!isOpen}
 	>
 		{#if showNewFolderForm}
 			<FolderForm {toggleFolderForm} />
@@ -51,3 +51,13 @@
 		</DragDrop>
 	</nav>
 </aside>
+
+<style>
+	.sidebar {
+		transition: max-width 0.3s ease;
+	}
+	.collapsed {
+		max-width: 0;
+		max-height: 100px;
+	}
+</style>

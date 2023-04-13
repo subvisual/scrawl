@@ -11,10 +11,6 @@
 	<svelte:fragment slot="sidebarLeft">
 		<Sidebar />
 	</svelte:fragment>
-	
-	<svelte:fragment slot="pageHeader">Page Header</svelte:fragment>
 
 	<slot />
-
-	<svelte:fragment slot="pageFooter">Page Footer</svelte:fragment>	
 </AppShell>
