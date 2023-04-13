@@ -1,5 +1,5 @@
 import { getUserFromCookies } from '$lib/cookies';
-import { createNote, updateNote } from '$lib/db';
+import { createNote, deleteNote, updateNote } from '$lib/db';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 import { generateSlug } from 'random-word-slugs';
 
@@ -18,7 +18,7 @@ export const POST = (async ({ cookies }) => {
 			noun: ['animals']
 		}
 	});
-	
+
 	const note = await createNote(user, {
 		user: user.address,
 		slug,
@@ -42,6 +42,24 @@ export const PUT = (async ({ request, cookies }) => {
 	const data = await request.json();
 
 	const update = await updateNote(user, data.id, data);
+
+	return json(update);
+}) satisfies RequestHandler;
+
+export const DELETE = (async ({ cookies, url }) => {
+	const user = getUserFromCookies(cookies);
+
+	if (!user) {
+		throw error(401, 'No user');
+	}
+
+	const id = url.searchParams.get('id');
+
+	if (!id) {
+		throw error(401, 'No id');
+	}
+
+	const update = await deleteNote(id);
 
 	return json(update);
 }) satisfies RequestHandler;

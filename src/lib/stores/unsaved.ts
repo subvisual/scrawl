@@ -22,12 +22,15 @@ function createUnsavedStore() {
 		return false;
 	}
 
-	editStore.subscribe((edit) => {
-		store.set(hasChanges(edit.original, edit.local));
-	});
+	function listen() {
+		editStore?.subscribe((edit) => {
+			store.set(hasChanges(edit.original, edit.local));
+		});
+	}
 
 	return {
-		...store
+		...store,
+		listen
 	};
 }
 

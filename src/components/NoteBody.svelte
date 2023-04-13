@@ -1,26 +1,8 @@
 <script lang="ts">
-	import { afterNavigate } from '$app/navigation';
-	import { onDestroy, onMount } from 'svelte';
 	import CmdIcon from './icons/CmdIcon.svelte';
 	import ButtonWithKey from './ButtonWithKey.svelte';
 	import { routes } from '$lib/routes';
-	import { browser } from '$app/environment';
 	import { editStore } from '$lib/stores/edit';
-
-	export let note: Partial<NoteType>;
-
-	afterNavigate(() => {
-		if (note) {
-			editStore.resetState(note);
-		}
-	});
-	onMount(() => {
-		if (note) editStore.resetState(note);
-		if (browser) editStore.setup();
-	});
-	onDestroy(() => {
-		if (browser) editStore.cleanUp();
-	});
 </script>
 
 <div>

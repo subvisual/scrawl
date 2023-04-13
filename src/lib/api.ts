@@ -14,7 +14,9 @@ export const api = {
 		request<T>(url, {
 			method: 'put',
 			body: JSON.stringify(options)
+		}),
+	delete: <T>(url: RequestInfo | URL, options?: Record<string, any>) =>
+		request<T>(url, {
+			method: 'delete'
 		})
 };
-/* 
-xdfgxfgxcfgdfg */

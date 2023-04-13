@@ -2,6 +2,7 @@ import { invalidate } from '$app/navigation';
 import { api } from '$lib/api';
 import { get, writable } from 'svelte/store';
 import { unsaved } from './unsaved';
+import { modalStore } from '@skeletonlabs/skeleton';
 
 type EditStore = {
 	original: Partial<NoteType>;
@@ -31,12 +32,18 @@ function createEditStore() {
 	}
 
 	function handleKeyDown(event: KeyboardEvent) {
-		if (event.key === 's' && event.ctrlKey) {
+		if (event.key === 's' && (event.metaKey || event.ctrlKey)) {
 			event.preventDefault();
-			console.log('save');
 			saveChanges();
 
 			return;
+		}
+
+		if (event.key === 'k' && (event.metaKey || event.ctrlKey)) {
+			modalStore.trigger({
+				type: 'component',
+				component: 'NoteQuickActions'
+			});
 		}
 	}
 

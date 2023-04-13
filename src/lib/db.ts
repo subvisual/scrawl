@@ -121,6 +121,10 @@ export async function createFolder(user: User, params: Partial<FolderType>) {
 		.select('id');
 }
 
+export async function deleteNote(id: string) {
+	return (await supabase.from('notes').delete().match({ id })).status;
+}
+
 /* 
 
 
