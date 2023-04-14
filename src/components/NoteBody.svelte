@@ -8,6 +8,14 @@
 
 <div>
 	<section class="relative py-12 px-8 max-w-5xl mx-auto max-h-screen">
+		<div class="flex pr-4 text-surface-300">
+			<span class="leading-tight">/</span>
+			<input
+				type="text"
+				class="text-sm w-full edible leading-tight"
+				bind:value={$editStore.local.slug}
+			/>
+		</div>
 		<div class="mb-8">
 			<input
 				type="text"

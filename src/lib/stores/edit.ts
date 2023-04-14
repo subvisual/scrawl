@@ -1,8 +1,9 @@
-import { invalidate } from '$app/navigation';
+import { goto, invalidate } from '$app/navigation';
 import { api } from '$lib/api';
 import { get, writable } from 'svelte/store';
 import { unsaved } from './unsaved';
 import { modalStore } from '@skeletonlabs/skeleton';
+import { routes } from '$lib/routes';
 
 type EditStore = {
 	original: Partial<NoteType>;
@@ -24,7 +25,6 @@ const store = writable<EditStore>({
 
 function createEditStore() {
 	function resetState(note: Partial<NoteType>) {
-		console.log('reset');
 		store.set({
 			original: { ...note },
 			local: { ...note }
@@ -63,17 +63,20 @@ function createEditStore() {
 			return;
 		}
 
-		/* if (changed(note.slug, local.slug)) {
-			await invalidate('notes:all');
-
-			goto(`/${local.slug}`, {
-				replaceState: true
-			});
-		} else if (changed(note.name, local.name)) {
-			invalidate('notes:all');
-		} */
+		console.log(data);
 
 		await invalidate(`note:${data.local.slug}`);
+
+		if (data.local.slug && data.local.slug !== data.original.slug) {
+			await invalidate('notes:all');
+
+			goto(routes.note(data.local.slug), {
+				replaceState: true
+			});
+			console.log('slug change');
+		} else if (data.local.name !== data.original.name) {
+			await invalidate('notes:all');
+		}
 
 		resetState({
 			...data.original,

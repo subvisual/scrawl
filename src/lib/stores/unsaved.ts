@@ -30,7 +30,8 @@ function createUnsavedStore() {
 
 	return {
 		...store,
-		listen
+		listen,
+		changed
 	};
 }
 
