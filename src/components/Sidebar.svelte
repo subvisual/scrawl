@@ -31,6 +31,7 @@
 	<nav
 		class="py-10 flex-1 border-l border-surface-700 overflow-hidden sidebar max-w-[290px] w-[290px]"
 		class:collapsed={!isOpen}
+		class:expanded={isOpen}
 	>
 		{#if showNewFolderForm}
 			<FolderForm {toggleFolderForm} />
@@ -56,8 +57,38 @@
 	.sidebar {
 		transition: max-width 0.3s ease;
 	}
+
+	@keyframes collapse {
+		0% {
+			opacity: 1;
+			max-width: 290px;
+			visibility: visible;
+		}
+		100% {
+			opacity: 0;
+			max-width: 0px;
+			visibility: hidden;
+		}
+	}
+
+	@keyframes expand {
+		0% {
+			opacity: 0;
+			max-width: 0px;
+			visibility: hidden;
+		}
+		100% {
+			opacity: 1;
+			max-width: 290px;
+			visibility: visible;
+		}
+	}
+
 	.collapsed {
-		max-width: 0;
-		max-height: 100px;
+		animation: collapse 0.3s ease forwards;
+	}
+
+	.expanded {
+		animation: expand 0.3s ease forwards;
 	}
 </style>

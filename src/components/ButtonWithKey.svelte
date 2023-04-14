@@ -28,14 +28,14 @@
 >
 	{text}
 
-	{#if icon}
-		<p
-			class="flex items-center gap-1 text-sm py-1 px-2 text-white bg-white/30 rounded-container-token unstyled leading-none"
-		>
+	<p
+		class="flex items-center gap-1 text-sm py-1 px-2 text-white bg-white/30 rounded-container-token unstyled leading-none"
+	>
+		{#if icon}
 			<Icon extraSmall>
 				<svelte:component this={icon} />
 			</Icon>
-			<span class="leading-none">{key}</span>
-		</p>
-	{/if}
+		{/if}
+		<span class="leading-none">{key}</span>
+	</p>
 </svelte:element>

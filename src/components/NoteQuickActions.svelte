@@ -28,7 +28,7 @@
 <ModalWrapper>
 	<ModalHeader slot="header">Quick Actions</ModalHeader>
 	<ModalBody>
-		<SearchAutocomplete />
+		<SearchAutocomplete hiddenOnStart />
 		<nav class="list-nav mt-4">
 			<ul>
 				<li>

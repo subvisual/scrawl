@@ -3,10 +3,11 @@
 	import ButtonWithKey from './ButtonWithKey.svelte';
 	import { routes } from '$lib/routes';
 	import { editStore } from '$lib/stores/edit';
+	import { focusTrap } from '@skeletonlabs/skeleton';
 </script>
 
 <div>
-	<section class="relative py-12 px-8 max-w-5xl mx-auto">
+	<section class="relative py-12 px-8 max-w-5xl mx-auto max-h-screen">
 		<div class="mb-8">
 			<input
 				type="text"
@@ -23,7 +24,7 @@
 		</div>
 
 		<div
-			class="absolute left-0 right-0 bottom-20 m-auto bg-surface-700 shadow-xl w-fit rounded-container-token px-4 py-4 flex items-stretch justify-center gap-4"
+			class="fixed right-20 bottom-1\0 m-auto bg-surface-700 shadow-xl w-fit rounded-container-token px-4 py-4 flex items-stretch justify-center gap-4"
 		>
 			<ButtonWithKey
 				text="Save"

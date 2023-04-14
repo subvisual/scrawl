@@ -10,7 +10,7 @@
 	function openSearchModal() {
 		modalStore.trigger({
 			type: 'component',
-			component: 'NoteQuickActions'
+			component: 'RootQuickActions'
 		});
 	}
 
@@ -23,7 +23,7 @@
 			openSearchModal();
 		}
 
-		if (event.key === 'n' && event.metaKey && event.altKey) {
+		if (event.key === 'n') {
 			newNote();
 		}
 	}
@@ -50,7 +50,6 @@
 			<ButtonWithKey
 				text="New note"
 				key="N"
-				icon={CmdIcon}
 				variant="variant-soft-secondary"
 				href={routes.newNote}
 			/>

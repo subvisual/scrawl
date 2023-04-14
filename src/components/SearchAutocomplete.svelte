@@ -4,6 +4,8 @@
 	import { routes } from '$lib/routes';
 	import { Autocomplete, modalStore } from '@skeletonlabs/skeleton';
 
+	export let hiddenOnStart = false;
+
 	let input = '';
 
 	let files = $page.data.notes.map((note) => ({
@@ -30,11 +32,14 @@
 		placeholder="Search notes..."
 	/>
 
-	<div class="relative">
-		{#if input.length > 0}
-			<div class="absolute top-4 w-full bg-surface-700 p-4 rounded">
-				<Autocomplete bind:input options={files} on:selection={onSelect} />
-			</div>
-		{/if}
+	<div
+		class="relative"
+		style="visibility: {hiddenOnStart && input.length === 0
+			? 'hidden'
+			: 'visible'} "
+	>
+		<div class="absolute top-4 w-full bg-surface-700 p-4 rounded">
+			<Autocomplete bind:input options={files} on:selection={onSelect} />
+		</div>
 	</div>
 </div>

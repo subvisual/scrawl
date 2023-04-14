@@ -9,7 +9,7 @@
 	export let onNewFolder: () => void;
 </script>
 
-<div class="sticky flex flex-col top-0 h-fit text-surface-300">
+<div class="sticky flex flex-col top-0 h-fit bg-surface-800 text-surface-300">
 	<button
 		type="button"
 		class="p-4 focus:bg-surface-900 focus:outline-none focus:text-white unstyled"

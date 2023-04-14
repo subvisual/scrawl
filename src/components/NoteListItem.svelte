@@ -24,6 +24,7 @@
 	class:active={$page.url.pathname === path}
 	class="unstyled max-w-[200px] whitespace-nowrap text-ellipsis overflow-hidden text-surface-300 text-sm"
 	title={note.name}
+	data-sveltekit-keepfocus
 >
 	{note.name}
 </a>
