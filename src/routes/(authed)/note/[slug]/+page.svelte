@@ -7,6 +7,8 @@
 	import { browser } from '$app/environment';
 	import { editStore } from '$lib/stores/edit';
 	import { unsaved } from '$lib/stores/unsaved';
+	import Editor from '$components/Editor.svelte';
+	import Preview from '$components/Preview.svelte';
 
 	export let data: PageData;
 
@@ -30,8 +32,9 @@
 {#if data.notFound}
 	<p>not found</p>
 {:else if data?.note}
-	<main>
+	<main class="h-full grid grid-cols-2">
 		<NoteTab note={data.note} />
-		<NoteBody />
+		<Editor note={data?.note} />
+		<Preview />
 	</main>
 {/if}

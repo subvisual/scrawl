@@ -8,9 +8,14 @@ import { routes } from '$lib/routes';
 type EditStore = {
 	original: Partial<NoteType>;
 	local: Partial<NoteType>;
+	id: string;
+	ready: boolean;
+	onReset: (() => void)[];
 };
 
 const store = writable<EditStore>({
+	id: '',
+	ready: false,
 	original: {
 		content: '',
 		name: '',
@@ -20,15 +25,31 @@ const store = writable<EditStore>({
 		content: '',
 		name: '',
 		slug: ''
-	}
+	},
+	onReset: []
 });
 
 function createEditStore() {
 	function resetState(note: Partial<NoteType>) {
-		store.set({
+		store.update((state) => ({
+			...state,
 			original: { ...note },
-			local: { ...note }
-		});
+			local: { ...note },
+			id: note.id || '',
+			ready: true
+		}));
+		emitReset();
+	}
+
+	function onReset(fn: () => void) {
+		store.update((store) => ({
+			...store,
+			onReset: [...store.onReset, fn]
+		}));
+	}
+
+	function emitReset() {
+		get(store).onReset.forEach((fn) => fn());
 	}
 
 	function handleKeyDown(event: KeyboardEvent) {
@@ -100,7 +121,8 @@ function createEditStore() {
 		handleKeyDown,
 		setup,
 		cleanUp,
-		saveChanges
+		saveChanges,
+		onReset
 	};
 }
 
