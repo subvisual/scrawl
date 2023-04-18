@@ -26,3 +26,5 @@ type PublicNoteType = {
 	user: string;
 	originalNote: string;
 };
+
+type View = 'editor' | 'preview' | 'split';
