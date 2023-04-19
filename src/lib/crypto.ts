@@ -27,7 +27,7 @@ function bulk(fields: Record<string, string>, fn: (val: string) => string) {
 
 	for (const field in fields) {
 		if (field !== 'id' && field !== 'user' && field !== 'folder') {
-			out[field] = fn(out[field]);
+			out[field] = fn(out[field]) || '';
 		}
 	}
 

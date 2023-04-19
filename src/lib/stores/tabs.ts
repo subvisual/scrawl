@@ -14,9 +14,6 @@ function createStore() {
 	let saved: string[] = [];
 
 	function handleNav(state: AfterNavigate, note: NoteType | undefined) {
-		console.log(state);
-        console.log(note?.name);
-
 		if (state.to?.url.pathname.includes('/note/') && note) {
 			saveAsTab(note);
 		}
@@ -27,12 +24,12 @@ function createStore() {
 
 		store.update((state) => ({
 			notes: [
-				...state.notes,
 				{
 					id: note.id,
 					name: note.name,
 					slug: note.slug
-				}
+				},
+				...state.notes
 			]
 		}));
 

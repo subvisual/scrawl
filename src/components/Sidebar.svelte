@@ -7,8 +7,8 @@
 	import NoteListItem from './NoteListItem.svelte';
 	import DragDrop from './DragDrop.svelte';
 	import { routes } from '$lib/routes';
+	import sidebarStore from '$lib/stores/sidebar';
 
-	let isOpen = true;
 	let showNewFolderForm = false;
 
 	$: orphanNotes = $page.data.notes.filter((item) => !item.folder);
@@ -24,14 +24,11 @@
 </script>
 
 <aside class="flex min-h-full bg-surface-800">
-	<SidebarActions
-		toggle={() => (isOpen = !isOpen)}
-		onNewFolder={toggleFolderForm}
-	/>
+	<SidebarActions toggle={sidebarStore.toggle} onNewFolder={toggleFolderForm} />
 	<nav
 		class="py-10 flex-1 border-l border-surface-700 overflow-hidden sidebar max-w-[290px] w-[290px]"
-		class:collapsed={!isOpen}
-		class:expanded={isOpen}
+		class:collapsed={!$sidebarStore.open}
+		class:expanded={$sidebarStore.open}
 	>
 		{#if showNewFolderForm}
 			<FolderForm {toggleFolderForm} />
@@ -60,13 +57,11 @@
 
 	@keyframes collapse {
 		0% {
-			opacity: 1;
-			max-width: 290px;
+			opacity: 1;			
 			visibility: visible;
 		}
 		100% {
-			opacity: 0;
-			max-width: 0px;
+			opacity: 0;			
 			visibility: hidden;
 		}
 	}
@@ -74,21 +69,21 @@
 	@keyframes expand {
 		0% {
 			opacity: 0;
-			max-width: 0px;
 			visibility: hidden;
 		}
 		100% {
 			opacity: 1;
-			max-width: 290px;
 			visibility: visible;
 		}
 	}
 
 	.collapsed {
 		animation: collapse 0.3s ease forwards;
+		max-width: 0;
 	}
 
 	.expanded {
 		animation: expand 0.3s ease forwards;
+		max-width: 290px;
 	}
 </style>
