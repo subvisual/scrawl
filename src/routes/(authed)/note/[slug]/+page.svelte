@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import NoteTab from '$components/NoteTab.svelte';
-	import { afterNavigate, goto } from '$app/navigation';
+	import { afterNavigate, beforeNavigate, goto } from '$app/navigation';
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { editStore } from '$lib/stores/edit';
@@ -14,19 +14,23 @@
 
 	export let data: PageData;
 
-	$: view = $viewStore.view || $page.url.searchParams.get('view');
+	$: view = $viewStore || $page.url.searchParams.get('view') || 'split';
 
 	afterNavigate(() => {
 		if (data.note) {
 			editStore.resetState(data.note);
 		}
 	});
+	beforeNavigate(viewStore.preserveView);
 	onMount(() => {
 		if (data.note) {
 			editStore.resetState(data.note);
 			unsaved.listen();
 		}
-		if (browser) editStore.setup();
+		if (browser) {
+			editStore.setup();
+			viewStore.setDefault();
+		}
 	});
 	onDestroy(() => {
 		if (browser) editStore.cleanUp();
@@ -36,10 +40,8 @@
 {#if data.notFound}
 	<p>not found</p>
 {:else if data?.note}
-	<div class="relative h-full grid" class:grid-cols-2={view === 'split'}>
-		<NoteTab note={data.note} />
-
-		<section class:hidden={view === 'preview'} class="w-full"> 
+	<div class="relative h-full grid" class:grid-cols-2={view === 'split'}>		
+		<section class:hidden={view === 'preview'} class="w-full">
 			<Editor note={data?.note} />
 		</section>
 		<section class:hidden={view === 'editor'} class="w-full">

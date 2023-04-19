@@ -14,7 +14,7 @@
 		$editStore.local.content = state.doc.toString();
 	});
 
-	function setup() {
+	function resetEditor() {
 		editor.setState(
 			EditorState.create({
 				doc: $editStore.local.content || '',
@@ -29,18 +29,24 @@
 		);
 	}
 
-	function createBodyEditor(node: HTMLElement) {
+	function createEditor(node: HTMLElement) {
 		editor = new EditorView({
 			parent: node,
 			doc: note.content || ''
 		});
 	}
 
-	editStore.onReset(setup);
+	editStore.onReset(resetEditor);
 </script>
 
-<article class="h-full flex flex-col bg-[#1c1d20] py-4">
+<article class="root h-full flex flex-col bg-editor-bg py-4">
 	<HeaderEditor {note} />
-	<div use:createBodyEditor class="flex-1" />
+	<div use:createEditor class="flex-1" />
 </article>
 
+<style>
+	.root {
+		background: var(--color-editor-bg);
+		border-right: 1px solid #ffffff33;
+	}
+</style>

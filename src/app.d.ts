@@ -22,6 +22,7 @@ declare global {
 			};
 			notes: NoteType[];
 			folders: FolderType[];
+			note?: NoteType;
 		}
 		// interface Platform {}
 	}

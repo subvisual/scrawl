@@ -1,20 +1,30 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { routes } from '$lib/routes';
 	import { unsaved } from '$lib/stores/unsaved';
+	import { modalStore } from '@skeletonlabs/skeleton';
 	import Icon from './Icon.svelte';
 	import CloseIcon from './icons/CloseIcon.svelte';
-
-	export let note: NoteType;
+	import { goto } from '$app/navigation';
 
 	function handleClick(event: MouseEvent) {
-		if ($unsaved) event.preventDefault();
+		if ($unsaved) {
+			event.preventDefault();
+
+			modalStore.trigger({
+				type: 'confirm',
+				title: 'Are you sure?',
+				body: 'All unsaved changes will be lost',
+				response: (yes) => {
+					if (yes) goto(routes.home);
+				}
+			});
+		}
 	}
 </script>
 
-<div
-	class="absolute h-8 w-60 -mt-8 py-1 px-4 bg-surface-900 z-20 root flex items-center justify-between"
->
-	<p class="text-sm unstyled">{note.name}</p>
+<div class="h-8 w-60 py-1 px-4 z-20 root flex items-center justify-between">
+	<p class="text-sm unstyled">{$page.data.note?.name}</p>
 
 	<div
 		class="flex items-center justify-center h-3 w-3 rounded-full hover:bg-transparent"
@@ -31,5 +41,6 @@
 <style>
 	.root {
 		border-radius: 8px 8px 0 0;
+		background: var(--color-editor-bg);
 	}
 </style>

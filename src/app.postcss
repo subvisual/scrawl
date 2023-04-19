@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Code+Pro:wght@400;600&display=swap');
 
-root {
-	--editor-bg: #1c1d20;
+:root {
+	--sidebar-width: 342px;
 }
 
 html,
@@ -31,10 +31,15 @@ div.markdown-body {
 	background: var(--editor-bg);
 	max-width: 1200px;
 }
+.ͼo .cm-gutters {
+	background: none;
+	border-right: 1px solid #ffffff22;
+	margin-left: -1px;
+}
 .markdown-body code p {
 	margin: 0;
 }
-.editor-header .cm-gutterElement {
+.editor-header .cm-gutters {
 	visibility: hidden;
 }
 .cm-content {

@@ -15,12 +15,12 @@
 </script>
 
 <slot />
-<div class="flex btn-group variant-soft">
+<div class="flex btn-group variant-ghost">
 	{#each views as view}
 		<button
 			type="button"
-			on:click={() => viewStore.setView(view)}
 			class:variant-filled-surface={$page.url.searchParams.get('view') === view}
+			on:click={() => viewStore.setView(view)}
 		>
 			<Icon small>
 				<svelte:component this={icons[view]} />
