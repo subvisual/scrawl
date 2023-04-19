@@ -11,6 +11,7 @@
 	import FloatingActionBar from '$components/FloatingActionBar.svelte';
 	import { page } from '$app/stores';
 	import viewStore from '$lib/stores/view';
+	import tabsStore from '$lib/stores/tabs';
 
 	export let data: PageData;
 
@@ -21,11 +22,15 @@
 			editStore.resetState(data.note);
 		}
 	});
-	beforeNavigate(viewStore.preserveView);
+	beforeNavigate((state) => {
+		viewStore.preserveView(state);
+	});
+	afterNavigate((state) => tabsStore.handleNav(state, data.note));
 	onMount(() => {
 		if (data.note) {
 			editStore.resetState(data.note);
 			unsaved.listen();
+			tabsStore.saveAsTab(data.note);
 		}
 		if (browser) {
 			editStore.setup();
@@ -40,7 +45,7 @@
 {#if data.notFound}
 	<p>not found</p>
 {:else if data?.note}
-	<div class="relative h-full grid" class:grid-cols-2={view === 'split'}>		
+	<div class="relative h-full grid" class:grid-cols-2={view === 'split'}>
 		<section class:hidden={view === 'preview'} class="w-full">
 			<Editor note={data?.note} />
 		</section>

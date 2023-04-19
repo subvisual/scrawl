@@ -7,6 +7,8 @@
 	import CloseIcon from './icons/CloseIcon.svelte';
 	import { goto } from '$app/navigation';
 
+	export let note: Partial<NoteType>;
+
 	function handleClick(event: MouseEvent) {
 		if ($unsaved) {
 			event.preventDefault();
@@ -24,7 +26,7 @@
 </script>
 
 <div class="h-8 w-60 py-1 px-4 z-20 root flex items-center justify-between">
-	<p class="text-sm unstyled">{$page.data.note?.name}</p>
+	<p class="text-sm unstyled">{note.name}</p>
 
 	<div
 		class="flex items-center justify-center h-3 w-3 rounded-full hover:bg-transparent"
