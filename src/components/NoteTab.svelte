@@ -53,11 +53,15 @@
 >
 	<svelte:element
 		this={isActiveNote ? 'p' : 'a'}
-		class="flex-1 unstyled"
+		class="flex-1 unstyled text-sm unstyled tab-text"
 		title={note.name}
 		href={routes.note(note.slug)}
 	>
-		<p class="text-sm unstyled">{note.name}</p>
+		{#if isActiveNote}
+			{$editStore.local.name}
+		{:else}
+			{note.name}
+		{/if}
 	</svelte:element>
 
 	{#if isActiveNote}
@@ -91,6 +95,12 @@
 <style>
 	.root {
 		border-radius: 8px 8px 0 0;
+	}
+	.tab-text {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		max-width: 85%;
 	}
 	.active-preview {
 		background: rgb(var(--color-surface-900));

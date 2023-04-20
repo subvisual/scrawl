@@ -30,7 +30,11 @@ function createStore() {
 	function genSigKey(val: KeySignature) {
 		const ctrlOrMeta = val.ctrlOrMeta || val.ctrlKey || val.metaKey || false;
 
-		return JSON.stringify({ key: val.key, ctrlOrMeta });
+		return JSON.stringify({
+			key: val.key,
+			ctrlOrMeta,
+			altKey: val.altKey || false
+		});
 	}
 
 	function listen(options: ListenerOptions) {
@@ -55,13 +59,9 @@ function createStore() {
 	}
 
 	function eventListener(event: KeyboardEvent) {
-		console.log(event);
-		console.log(get(store).bindings);
-		const { key, metaKey, ctrlKey } = event;
-		const evtKey = genSigKey({ ctrlKey, metaKey, key });
+		const { key, metaKey, ctrlKey, altKey } = event;
+		const evtKey = genSigKey({ ctrlKey, metaKey, key, altKey });
 		const match = get(store).bindings?.[evtKey];
-
-		console.log(evtKey);
 
 		if (match) {
 			if (match.route && !matchRoute(match.route, window.location.pathname)) {
@@ -69,8 +69,6 @@ function createStore() {
 			}
 
 			event.preventDefault();
-
-			console.log(`Trigger: ${evtKey}`);
 			match.action();
 		}
 	}

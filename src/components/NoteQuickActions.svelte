@@ -26,9 +26,11 @@
 </script>
 
 <ModalWrapper>
-	<ModalHeader slot="header">Quick Actions</ModalHeader>
 	<ModalBody>
 		<SearchAutocomplete hiddenOnStart />
+		<div class="mt-4">
+			<hr />
+		</div>
 		<nav class="list-nav mt-4">
 			<ul>
 				<li>

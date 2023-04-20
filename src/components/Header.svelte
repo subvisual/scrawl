@@ -1,5 +1,6 @@
 <script>
 	import { page } from '$app/stores';
+	import { editStore } from '$lib/stores/edit';
 	import sidebarStore from '$lib/stores/sidebar';
 	import tabsStore from '$lib/stores/tabs';
 	import NoteTab from './NoteTab.svelte';
@@ -8,7 +9,7 @@
 	$: noteRoute = $page.url.pathname.includes('/note/');
 </script>
 
-<div class="w-full bg-surface-700 flex">
+<div class="w-full bg-surface-700 flex justify-between">
 	{#if noteRoute}
 		<div
 			class="tabs relative flex self-end"
@@ -18,7 +19,14 @@
 				<NoteTab {note} {index} />
 			{/each}
 		</div>
-		<div class="px-4 py-2 ml-auto">
+		{#if $editStore.usingLocalStorageVersion}
+			<div class="ml-auto self-center">
+				<span class="chip variant-ghost-secondary">
+					Using local version of note
+				</span>
+			</div>
+		{/if}
+		<div class="px-4 py-2">
 			<ViewSwitcher />
 		</div>
 	{/if}
@@ -28,6 +36,10 @@
 	.tabs {
 		margin-left: 53px;
 		transition: margin 0.3s ease;
+		max-width: 80%;
+		height: 2rem;
+		width: 100%;
+		overflow: hidden;
 	}
 	.tabs-expanded {
 		margin-left: var(--sidebar-width);

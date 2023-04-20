@@ -5,6 +5,7 @@ import { unsaved } from './unsaved';
 import { modalStore } from '@skeletonlabs/skeleton';
 import { routes } from '$lib/routes';
 import keybinderStore from './keybinder';
+import type { BeforeNavigate } from '@sveltejs/kit';
 
 type EditStore = {
 	original: Partial<NoteType>;
@@ -12,6 +13,7 @@ type EditStore = {
 	id: string;
 	ready: boolean;
 	onReset: (() => void)[];
+	usingLocalStorageVersion: boolean;
 };
 
 const store = writable<EditStore>({
@@ -27,18 +29,31 @@ const store = writable<EditStore>({
 		name: '',
 		slug: ''
 	},
-	onReset: []
+	onReset: [],
+	usingLocalStorageVersion: false
 });
 
 function createEditStore() {
 	function resetState(note: Partial<NoteType>) {
+		let local = { ...note };
+		let usingLocal = false;
+		const stored = localStorage.getItem(`note-${note.id}`);
+
+		if (stored) {
+			// TODO: compare DB note updated_at with stored timestamp
+			local = JSON.parse(stored)?.local || local;
+			usingLocal = true;
+		}
+
 		store.update((state) => ({
 			...state,
 			original: { ...note },
-			local: { ...note },
+			local,
 			id: note.id || '',
-			ready: true
+			ready: true,
+			usingLocalStorageVersion: usingLocal
 		}));
+
 		emitReset();
 	}
 
@@ -73,6 +88,8 @@ function createEditStore() {
 
 		await invalidate(`note:${data.local.slug}`);
 
+		localStorage.removeItem(`note-${data.id}`);
+
 		if (data.local.slug && data.local.slug !== data.original.slug) {
 			await invalidate('notes:all');
 
@@ -88,6 +105,20 @@ function createEditStore() {
 			...data.original,
 			...data.local
 		});
+	}
+
+	function handleBeforeNav(state: BeforeNavigate) {
+		if (state.to?.url.pathname.includes('note') && get(unsaved)) {
+			const st = get(store);
+
+			localStorage.setItem(
+				`note-${st.id}`,
+				JSON.stringify({
+					local: st.local,
+					timestamp: Date.now()
+				})
+			);
+		}
 	}
 
 	function setup() {
@@ -121,7 +152,8 @@ function createEditStore() {
 		resetState,
 		setup,
 		saveChanges,
-		onReset
+		onReset,
+		handleBeforeNav
 	};
 }
 

@@ -24,6 +24,7 @@
 	});
 	beforeNavigate((state) => {
 		viewStore.preserveView(state);
+		editStore.handleBeforeNav(state);
 	});
 	afterNavigate((state) => tabsStore.handleNav(state, data.note));
 	onMount(() => {

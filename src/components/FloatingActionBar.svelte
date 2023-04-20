@@ -12,14 +12,8 @@
 		text="Save"
 		key="S"
 		icon={CmdIcon}
-		variant="variant-ghost-secondary"
-		on:click={editStore.saveChanges}
-	/>
-	<ButtonWithKey
-		text="New note"
-		key="N"
 		variant="variant-soft-secondary"
-		href={routes.newNote}
+		on:click={editStore.saveChanges}
 	/>
 	<ButtonWithKey
 		text="Options"
