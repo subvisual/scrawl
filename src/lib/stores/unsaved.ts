@@ -24,9 +24,6 @@ function createUnsavedStore() {
 
 	function listen() {
 		editStore?.subscribe((edit) => {
-			console.log("change")
-			console.log(edit)
-
 			store.set(hasChanges(edit.original, edit.local));
 		});
 	}

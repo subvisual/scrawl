@@ -65,7 +65,7 @@
 			class="flex items-center justify-center h-3 w-3 rounded-full hover:bg-transparent"
 			class:bg-white={$unsaved && isActiveNote}
 		>
-			{#if $tabsStore.notes.length}
+			{#if $tabsStore.notes.length > 1}
 				<button type="button" on:click={handleClick}>
 					<Icon extraSmall>
 						<CloseIcon />

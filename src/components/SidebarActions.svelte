@@ -14,6 +14,7 @@
 		type="button"
 		class="p-4 focus:bg-surface-900 focus:outline-none focus:text-white unstyled"
 		on:click={toggle}
+		title="Toggle sidebar (Ctrl + \)"
 	>
 		<Icon>
 			<LayoutIcon />

@@ -34,11 +34,8 @@
 		}
 		if (browser) {
 			editStore.setup();
-			viewStore.setDefault();
+			viewStore.init();
 		}
-	});
-	onDestroy(() => {
-		if (browser) editStore.cleanUp();
 	});
 </script>
 

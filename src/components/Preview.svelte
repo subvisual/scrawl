@@ -1,5 +1,5 @@
 <script lang="ts">
-	import 'github-markdown-css/github-markdown-dark.css';
+	import 'github-markdown-css';
 	import 'highlight.js/styles/tokyo-night-dark.css';
 	import { editStore } from '$lib/stores/edit';
 	import Markdown from 'svelte-exmarkdown';

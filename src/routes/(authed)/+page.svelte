@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import ButtonWithKey from '$components/ButtonWithKey.svelte';
 	import CmdIcon from '$components/icons/CmdIcon.svelte';
 	import { routes } from '$lib/routes';
+	import keybinderStore from '$lib/stores/keybinder';
+	import sidebarStore from '$lib/stores/sidebar';
 	import { modalStore } from '@skeletonlabs/skeleton';
-	import { onDestroy, onMount } from 'svelte';
 
 	function openSearchModal() {
 		modalStore.trigger({
@@ -14,25 +15,24 @@
 		});
 	}
 
-	function newNote() {
-		goto(routes.newNote);
-	}
-
-	function handleKeyDown(event: KeyboardEvent) {
-		if (event.key === 'k' && event.metaKey) {
-			openSearchModal();
-		}
-
-		if (event.key === 'n') {
-			newNote();
-		}
-	}
-
-	onMount(() => {
-		if (browser) document.addEventListener('keydown', handleKeyDown);
+	keybinderStore.listen({
+		signature: {
+			key: 'k',
+			ctrlOrMeta: true
+		},
+		route: '/',
+		action: openSearchModal
 	});
-	onDestroy(() => {
-		if (browser) document.removeEventListener('keydown', handleKeyDown);
+
+	keybinderStore.listen({
+		signature: {
+			key: 'n'
+		},
+		route: '/',
+		action: () => {
+			//goto(routes.newNote);
+			console.log('NEW')
+		}
 	});
 </script>
 

@@ -6,13 +6,14 @@
 	import ViewSwitcher from './ViewSwitcher.svelte';
 
 	$: noteRoute = $page.url.pathname.includes('/note/');
-
-	$: console.log($tabsStore.notes);
 </script>
 
 <div class="w-full bg-surface-700 flex">
 	{#if noteRoute}
-		<div class="tabs relative flex self-end" class:tabs-expanded={$sidebarStore.open}>
+		<div
+			class="tabs relative flex self-end"
+			class:tabs-expanded={$sidebarStore.open}
+		>
 			{#each $tabsStore.notes as note, index (note.id)}
 				<NoteTab {note} {index} />
 			{/each}

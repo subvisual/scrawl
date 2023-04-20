@@ -4,6 +4,7 @@ import { get, writable } from 'svelte/store';
 import { unsaved } from './unsaved';
 import { modalStore } from '@skeletonlabs/skeleton';
 import { routes } from '$lib/routes';
+import keybinderStore from './keybinder';
 
 type EditStore = {
 	original: Partial<NoteType>;
@@ -52,22 +53,6 @@ function createEditStore() {
 		get(store).onReset.forEach((fn) => fn());
 	}
 
-	function handleKeyDown(event: KeyboardEvent) {
-		if (event.key === 's' && (event.metaKey || event.ctrlKey)) {
-			event.preventDefault();
-			saveChanges();
-
-			return;
-		}
-
-		if (event.key === 'k' && (event.metaKey || event.ctrlKey)) {
-			modalStore.trigger({
-				type: 'component',
-				component: 'NoteQuickActions'
-			});
-		}
-	}
-
 	async function saveChanges() {
 		const data = get(store);
 		const hasChanges = get(unsaved);
@@ -106,11 +91,27 @@ function createEditStore() {
 	}
 
 	function setup() {
-		document.addEventListener('keydown', editStore.handleKeyDown);
-	}
+		keybinderStore.listen({
+			signature: {
+				key: 'k',
+				ctrlOrMeta: true
+			},
+			route: '/note/:slug',
+			action: () =>
+				modalStore.trigger({
+					type: 'component',
+					component: 'NoteQuickActions'
+				})
+		});
 
-	function cleanUp() {
-		document.removeEventListener('keydown', editStore.handleKeyDown);
+		keybinderStore.listen({
+			signature: {
+				key: 's',
+				ctrlOrMeta: true
+			},
+			route: '/note/:slug',
+			action: saveChanges
+		});
 	}
 
 	return {
@@ -118,9 +119,7 @@ function createEditStore() {
 		set: store.set,
 		update: store.update,
 		resetState,
-		handleKeyDown,
 		setup,
-		cleanUp,
 		saveChanges,
 		onReset
 	};
