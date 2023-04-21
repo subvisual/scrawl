@@ -1,9 +1,8 @@
-import { goto, invalidate } from '$app/navigation';
+import { invalidate } from '$app/navigation';
 import { api } from '$lib/api';
 import { get, writable } from 'svelte/store';
 import { unsaved } from './unsaved';
 import { modalStore, toastStore } from '@skeletonlabs/skeleton';
-import { routes } from '$lib/routes';
 import keybinderStore from './keybinder';
 import type { BeforeNavigate } from '@sveltejs/kit';
 
@@ -21,13 +20,11 @@ const store = writable<EditStore>({
 	ready: false,
 	original: {
 		content: '',
-		name: '',
-		slug: ''
+		name: ''
 	},
 	local: {
 		content: '',
-		name: '',
-		slug: ''
+		name: ''
 	},
 	onReset: [],
 	usingLocalStorageVersion: false
@@ -74,7 +71,7 @@ function createEditStore() {
 
 		if (!hasChanges) return;
 
-		const req = await api.put<{ id: string; slug: string }>('/api/note', {
+		const req = await api.put<{ id: string }>('/api/note', {
 			id: data.local.id,
 			...data.local
 		});
@@ -92,7 +89,7 @@ function createEditStore() {
 			message: 'Note saved'
 		});
 
-		await invalidate(`note:${data.local.slug}`);
+		await invalidate(`note:${data.local.id}`);
 
 		localStorage.removeItem(`note-${data.id}`);
 
@@ -126,7 +123,7 @@ function createEditStore() {
 				key: 'k',
 				ctrlOrMeta: true
 			},
-			route: '/note/:slug',
+			route: '/note/:id',
 			action: () =>
 				modalStore.trigger({
 					type: 'component',
@@ -139,7 +136,7 @@ function createEditStore() {
 				key: 's',
 				ctrlOrMeta: true
 			},
-			route: '/note/:slug',
+			route: '/note/:id',
 			action: saveChanges
 		});
 	}

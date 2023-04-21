@@ -1,34 +1,28 @@
 import { getUserFromCookies } from '$lib/cookies';
-import { getNote, updateNote } from '$lib/db';
-import { redirect, type Actions } from '@sveltejs/kit';
+import { getNote } from '$lib/db';
+import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({
-	params,
-	url,
-	cookies,
-	depends
-}) => {
+export const load: PageServerLoad = async ({ params, cookies, depends }) => {
 	const user = getUserFromCookies(cookies);
 
 	if (!user) {
 		throw redirect(302, '/');
 	}
 
-	const data = await getNote(user, params.slug);
+	const data = await getNote(user, params.id);
 	const note = data?.[0] as NoteType;
 
-	depends(`note:${params.slug}`);
+	depends(`note:${params.id}`);
 
 	if (!note) {
 		return {
-			slug: params.slug,
+			id: params.id,
 			notFound: true
 		};
 	}
 
 	return {
-		slug: params.slug,
 		id: note.id,
 		note
 	};

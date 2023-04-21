@@ -1,4 +1,3 @@
-import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 import { routes } from '$lib/routes';
 import type { BeforeNavigate } from '@sveltejs/kit';
@@ -49,7 +48,7 @@ function createStore() {
 			action: () => {
 				setView('editor');
 			},
-			route: '/note/:slug'
+			route: '/note/:id'
 		});
 		keybinderStore.listen({
 			signature: {
@@ -60,7 +59,7 @@ function createStore() {
 			action: () => {
 				setView('split');
 			},
-			route: '/note/:slug'
+			route: '/note/:id'
 		});
 		keybinderStore.listen({
 			signature: {
@@ -71,7 +70,7 @@ function createStore() {
 			action: () => {
 				setView('preview');
 			},
-			route: '/note/:slug'
+			route: '/note/:id'
 		});
 	}
 

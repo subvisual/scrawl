@@ -30,8 +30,7 @@
 	{#each buttons as button (button.view)}
 		<button
 			type="button"
-			class:variant-filled-surface={$page.url.searchParams.get('view') ===
-				button.view}
+			class:variant-filled-surface={$viewStore === button.view}
 			title={button.title}
 			on:click={() => viewStore.setView(button.view)}
 		>

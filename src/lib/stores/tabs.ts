@@ -1,9 +1,8 @@
-import { routes } from '$lib/routes';
-import type { AfterNavigate, BeforeNavigate } from '@sveltejs/kit';
+import type { AfterNavigate } from '@sveltejs/kit';
 import { writable } from 'svelte/store';
 
 type Store = {
-	notes: { id: string; slug: string; name: string }[];
+	notes: { id: string; name: string }[];
 };
 
 const store = writable<Store>({
@@ -26,8 +25,7 @@ function createStore() {
 			notes: [
 				{
 					id: note.id,
-					name: note.name,
-					slug: note.slug
+					name: note.name
 				},
 				...state.notes
 			]

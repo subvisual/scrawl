@@ -4,7 +4,7 @@
 
 	export let note: NoteType;
 
-	const path = routes.note(note.slug);
+	const path = routes.note(note.id);
 
 	function handleDragStart(event: DragEvent, note: NoteType) {
 		event.dataTransfer?.setData(

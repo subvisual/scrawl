@@ -9,7 +9,7 @@
 
 {#each $page.data.notes || [] as note}
 	<p>
-		<a href={`/${note.slug}`}>
+		<a href={`/${note.id}`}>
 			{note.name}
 		</a>
 	</p>

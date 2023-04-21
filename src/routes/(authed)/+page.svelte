@@ -31,7 +31,7 @@
 		route: '/',
 		action: () => {
 			//goto(routes.newNote);
-			console.log('NEW')
+			console.log('NEW');
 		}
 	});
 </script>

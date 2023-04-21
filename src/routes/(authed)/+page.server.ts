@@ -15,11 +15,9 @@ export const actions: Actions = {
 
 		const data = await request.formData();
 		const name = data.get('name') as string;
-		const slug = data.get('slug') as string;
 
 		const folder = await createFolder(user, {
 			name,
-			slug,
 			user: user.address
 		});
 

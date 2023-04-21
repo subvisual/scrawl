@@ -13,7 +13,7 @@ function createStore() {
 
 	return {
 		...sidebar,
-        toggle
+		toggle
 	};
 }
 

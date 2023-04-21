@@ -10,6 +10,7 @@
 	import sidebarStore from '$lib/stores/sidebar';
 
 	let showNewFolderForm = false;
+	let className = '';
 
 	$: orphanNotes = $page.data.notes.filter((item) => !item.folder);
 	$: foldersWithNotes = $page.data.folders.map((folder) => ({
@@ -17,18 +18,17 @@
 		notes: $page.data.notes?.filter((note) => note.folder === folder.id)
 	}));
 	$: activeFolder = $page.data.notes.find(
-		(item) => routes.note(item.slug) === $page.url.pathname
+		(item) => routes.note(item.id) === $page.url.pathname
 	)?.folder;
 
 	const toggleFolderForm = () => (showNewFolderForm = !showNewFolderForm);
 </script>
 
-<aside class="flex min-h-full bg-surface-800">
+<section class="flex min-h-full bg-surface-800">
 	<SidebarActions toggle={sidebarStore.toggle} onNewFolder={toggleFolderForm} />
 	<nav
-		class="py-10 flex-1 border-l border-surface-700 overflow-hidden sidebar max-w-[290px] w-[290px] opacity-1 visible"
-		class:collapsed={!$sidebarStore.open}
-		class:expanded={$sidebarStore.open}
+		class="sidebar-nav min-h-full py-10 flex-1 border-l border-surface-700 overflow-hidden w-[290px]"
+		class:hidden={!$sidebarStore.open}
 	>
 		{#if showNewFolderForm}
 			<FolderForm {toggleFolderForm} />
@@ -48,42 +48,10 @@
 			</div>
 		</DragDrop>
 	</nav>
-</aside>
+</section>
 
 <style>
 	.sidebar {
 		transition: max-width 0.3s ease;
-	}
-
-	@keyframes collapse {
-		0% {
-			opacity: 1;
-			visibility: visible;
-		}
-		100% {
-			opacity: 0;
-			visibility: hidden;
-		}
-	}
-
-	@keyframes expand {
-		0% {
-			opacity: 0;
-			visibility: hidden;
-		}
-		100% {
-			opacity: 1;
-			visibility: visible;
-		}
-	}
-
-	.collapsed {
-		animation: collapse 0.3s ease forwards;
-		max-width: 0;
-	}
-
-	.expanded {
-		animation: expand 0.3s ease forwards;
-		max-width: 290px;
 	}
 </style>

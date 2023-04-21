@@ -1,7 +1,7 @@
 export const routes = {
 	home: '/',
 	logIn: '/log-in',
-	note: (slug: string) => `/note/${slug}`,
+	note: (id: string) => `/note/${id}`,
 	newNote: '/note/new',
-	folder: (slug: string) => `/folder/${slug}`
+	folder: (id: string) => `/folder/${id}`
 };

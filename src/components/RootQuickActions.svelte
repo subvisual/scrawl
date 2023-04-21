@@ -10,6 +10,6 @@
 	<ModalHeader slot="header">Search notes</ModalHeader>
 	<ModalBody>
 		<SearchAutocomplete />
-        <div class="h-10" />
+		<div class="h-10" />
 	</ModalBody>
 </ModalWrapper>

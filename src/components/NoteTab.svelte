@@ -9,7 +9,7 @@
 	import tabsStore from '$lib/stores/tabs';
 	import viewStore from '$lib/stores/view';
 
-	export let note: Pick<NoteType, 'id' | 'name' | 'slug'>;
+	export let note: Pick<NoteType, 'id' | 'name'>;
 	export let index: number;
 
 	function handleCloseActiveTab() {
@@ -17,7 +17,7 @@
 			let nextTab = $tabsStore.notes.find((item) => item.id !== note.id);
 
 			if (nextTab) {
-				goto(nextTab.slug);
+				goto(nextTab.id);
 				tabsStore.closeTab(note.id);
 			}
 
@@ -50,7 +50,7 @@
 </script>
 
 <div
-	class="absolute bottom-0 left-0 h-8 w-60 py-1 px-4 z-20 root flex items-center justify-between transition transition-all"
+	class="absolute bottom-0 left-0 h-8 w-60 py-1 px-4 z-20 root flex items-center justify-between transition-all"
 	class:active={isActiveNote && $viewStore !== 'preview'}
 	class:active-preview={isActiveNote && $viewStore === 'preview'}
 	style="transform: translateX({index * 240}px)"
@@ -59,7 +59,7 @@
 		this={isActiveNote ? 'p' : 'a'}
 		class="flex-1 unstyled text-sm unstyled tab-text"
 		title={note.name}
-		href={routes.note(note.slug)}
+		href={routes.note(note.id)}
 	>
 		{#if isActiveNote}
 			{$editStore.local.name}

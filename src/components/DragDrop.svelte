@@ -3,7 +3,7 @@
 	import { toastStore } from '@skeletonlabs/skeleton';
 
 	export let folderId: string | null;
-	export let className: string = '';
+	export let className = '';
 
 	let hovered = false;
 

@@ -8,7 +8,7 @@
 	export let note: NoteType;
 
 	let editor: EditorView;
-	let listener = EditorView.updateListener.of(({ state }) => {		
+	let listener = EditorView.updateListener.of(({ state }) => {
 		$editStore.local.name = state.doc.toString().substring(2);
 	});
 

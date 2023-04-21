@@ -19,15 +19,11 @@ export async function createUser(user: User) {
 export async function getNotes(user: User) {
 	const { data } = await supabase
 		.from('notes')
-		.select(`id, name, folder, tags, slug`)
+		.select(`id, name, folder, tags`)
 		.eq('user', user.address)
 		.order('created_at', { ascending: false });
 
-	if (!data) {
-		return null;
-	}
-
-	return data.map((note) => ({
+	return data?.map((note) => ({
 		...note,
 		...decryptFields<NoteType>(user.key, note)
 	}));
@@ -37,23 +33,19 @@ export async function createNote(user: User, params: Partial<NoteType>) {
 	return supabase
 		.from('notes')
 		.insert([encryptFields(user.key, params)])
-		.select('id, slug');
+		.select('id');
 }
 
-export async function getNote(user: User, slug: string) {
+export async function getNote(user: User, id: string) {
 	const { data } = await supabase
 		.from('notes')
-		.select(`id, name, folder, tags, slug, content`)
+		.select(`id, name, folder, tags, content`)
 		.match({
-			slug: encrypt(slug, user.key),
+			id,
 			user: user.address
 		});
 
-	if (!data) {
-		return null;
-	}
-
-	return data.map((note) => ({
+	return data?.map((note) => ({
 		...note,
 		...decryptFields<NoteType>(user.key, note)
 	}));
@@ -66,13 +58,13 @@ export async function updateNote(
 ) {
 	const data = encryptFields(user.key, params);
 
-	return supabase.from('notes').update([data]).match({ id }).select('id, slug');
+	return supabase.from('notes').update([data]).match({ id }).select('id');
 }
 
 export async function getFolders(user: User) {
 	const { data } = await supabase
 		.from('folders')
-		.select(`id, name, slug`)
+		.select(`id, name`)
 		.eq('user', user.address)
 		.order('created_at', { ascending: false });
 
@@ -83,31 +75,26 @@ export async function getFolders(user: User) {
 	return data.map((folder) => decryptFields<FolderType>(user.key, folder));
 }
 
-export async function getFolder(user: User, slug: string) {
-	const { data, error } = await supabase
+export async function getFolder(user: User, id: string) {
+	const { data } = await supabase
 		.from('folders')
 		.select(
 			`
-			id, name, slug,
+			id, name,
 			notes (
-				id, slug, name
+				id, name
 			)
 			`
 		)
 		.match({
-			slug: encrypt(slug, user.key),
+			id,
 			user: user.address
 		});
 
-	if (!data) {
-		return null;
-	}
-
-	return data.map((folder) => ({
+	return data?.map((folder) => ({
 		id: folder.id,
 		name: decrypt(folder.name, user.key),
-		slug: decrypt(folder.slug, user.key),
-		notes: (folder.notes as any).map((note: any) => ({
+		notes: (folder.notes as any[]).map((note: any) => ({
 			...note,
 			...decryptFields<FolderType>(user.key, note)
 		}))

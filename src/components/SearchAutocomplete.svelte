@@ -10,7 +10,7 @@
 
 	let files = $page.data.notes.map((note) => ({
 		label: note.name,
-		value: note.slug
+		value: note.id
 	}));
 
 	function onSelect(event: any): void {

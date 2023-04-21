@@ -5,13 +5,13 @@
 	import { onMount } from 'svelte';
 
 	onMount(async () => {
-		const note = await api.post<{ id: string; slug: string }>('/api/note', {
+		const note = await api.post<{ id: string; name: string }>('/api/note', {
 			method: 'post'
 		});
 
 		if (note?.id) {
 			await invalidate('notes:all');
-			goto(routes.note(note.slug));
+			goto(routes.note(note.id));
 		}
 	});
 </script>

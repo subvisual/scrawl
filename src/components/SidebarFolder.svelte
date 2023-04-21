@@ -11,6 +11,8 @@
 	import TrashIcon from './icons/TrashIcon.svelte';
 	import { api } from '$lib/api';
 	import { invalidate } from '$app/navigation';
+	import NoteIcon from './icons/NoteIcon.svelte';
+	import { routes } from '$lib/routes';
 
 	export let folder: FolderType & { notes: NoteType[] };
 	export let active: boolean;
@@ -61,25 +63,36 @@
 			</Icon>
 		</svelte:fragment>
 		<svelte:fragment slot="content">
-			{#if folder.notes.length}
-				<div class="flex flex-col gap-4 px-2">
-					{#each folder.notes as note}
-						<NoteListItem {note} />
-					{/each}
-				</div>
-			{:else}
-				<span class="text-sm text-surface-300 px-4">No notes yet</span>
-			{/if}
-			<button
-				type="button"
-				on:click={handleDelete}
-				class="flex gap-2 w-full items-center text-red-500 pl-2"
-			>
-				<Icon small>
-					<TrashIcon />
-				</Icon>
-				<span class=" text-sm"> Delete folder </span>
-			</button>
+			<section class="border-l border-surface-600 pl-2">
+				{#if folder.notes.length}
+					<div class="flex flex-col gap-4 px-2">
+						{#each folder.notes as note}
+							<NoteListItem {note} />
+						{/each}
+					</div>
+				{:else}
+					<span class="text-sm text-surface-300 px-4">No notes yet</span>
+				{/if}
+				<a
+					href={routes.newNote}
+					class="unstyled flex justify-between gap-2 w-full items-center text-secondary-500 pl-2 mt-3"
+				>
+					<span class="text-sm"> Add a note </span>
+					<Icon small>
+						<NoteIcon />
+					</Icon>
+				</a>
+				<button
+					type="button"
+					on:click={handleDelete}
+					class="flex justify-between gap-2 w-full items-center text-red-500 pl-2 mt-3"
+				>
+					<span class="text-sm"> Delete folder </span>
+					<Icon small>
+						<TrashIcon />
+					</Icon>
+				</button>
+			</section>
 		</svelte:fragment>
 	</AccordionItem>
 </DragDrop>

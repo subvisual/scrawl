@@ -35,7 +35,6 @@
 <style>
 	.tabs {
 		margin-left: 53px;
-		transition: margin 0.3s ease;
 		max-width: 80%;
 		height: 2rem;
 		width: 100%;
