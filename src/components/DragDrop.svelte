@@ -3,6 +3,7 @@
 	import { toastStore } from '@skeletonlabs/skeleton';
 
 	export let folderId: string | null;
+	export let className: string = '';
 
 	let hovered = false;
 
@@ -47,7 +48,7 @@
 	on:dragenter={handleDragEnter}
 	on:dragleave={handleDragLeave}
 	on:drop={handleDrop}
-	class="p-1 rounded"
+	class="p-1 rounded {className}"
 	class:hovered
 >
 	<slot />

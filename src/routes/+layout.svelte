@@ -18,7 +18,6 @@
 		offset,
 		arrow
 	} from '@floating-ui/dom';
-	import { toastComponentRegistry } from '$components/Toasts/registry';
 
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
@@ -29,7 +28,6 @@
 
 <Modal components={modalComponentRegistry} />
 <Toast
-	components={toastComponentRegistry}
 	position="bl"
 	padding="py-2 px-4"
 	background="variant-filled-primary"

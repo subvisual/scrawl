@@ -20,7 +20,11 @@
 				goto(nextTab.slug);
 				tabsStore.closeTab(note.id);
 			}
+
+			return;
 		}
+
+		goto(routes.home);
 	}
 
 	function handleClick(event: MouseEvent) {

@@ -1,5 +1,5 @@
 import { getUserFromCookies } from '$lib/cookies';
-import { createFolder } from '$lib/db';
+import { createFolder, deleteFolder } from '$lib/db';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const POST = (async ({ request, cookies }) => {
@@ -19,4 +19,26 @@ export const POST = (async ({ request, cookies }) => {
 	}
 
 	return json({ id: folder.data[0].id });
+}) satisfies RequestHandler;
+
+export const DELETE = (async ({ url, cookies }) => {
+	const user = getUserFromCookies(cookies);
+
+	if (!user) {
+		throw error(401, 'No user');
+	}
+
+	const id = url.searchParams.get('id');
+
+	console.log(id);
+
+	if (!id) {
+		throw error(401, 'No id');
+	}
+
+	const update = await deleteFolder(id);
+
+	console.log(update);
+
+	return json(update);
 }) satisfies RequestHandler;

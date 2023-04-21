@@ -26,7 +26,7 @@
 <aside class="flex min-h-full bg-surface-800">
 	<SidebarActions toggle={sidebarStore.toggle} onNewFolder={toggleFolderForm} />
 	<nav
-		class="py-10 flex-1 border-l border-surface-700 overflow-hidden sidebar max-w-[290px] w-[290px]"
+		class="py-10 flex-1 border-l border-surface-700 overflow-hidden sidebar max-w-[290px] w-[290px] opacity-1 visible"
 		class:collapsed={!$sidebarStore.open}
 		class:expanded={$sidebarStore.open}
 	>
@@ -57,11 +57,11 @@
 
 	@keyframes collapse {
 		0% {
-			opacity: 1;			
+			opacity: 1;
 			visibility: visible;
 		}
 		100% {
-			opacity: 0;			
+			opacity: 0;
 			visibility: hidden;
 		}
 	}

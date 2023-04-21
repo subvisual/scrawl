@@ -125,6 +125,10 @@ export async function deleteNote(id: string) {
 	return (await supabase.from('notes').delete().match({ id })).status;
 }
 
+export async function deleteFolder(id: string) {
+	return (await supabase.from('folders').delete().match({ id })).status;
+}
+
 /* 
 
 
