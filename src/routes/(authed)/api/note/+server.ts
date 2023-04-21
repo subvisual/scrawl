@@ -22,7 +22,7 @@ export const POST = (async ({ cookies, request }) => {
 
 	const note = await createNote(user, {
 		user: user.address,
-		folder: data.folder || '',
+		folder: data.folder,
 		name
 	});
 

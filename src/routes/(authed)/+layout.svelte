@@ -13,7 +13,7 @@
 
 	keybinderStore.listen({
 		signature: {
-			key: '\\',
+			key: 'Backslash',
 			ctrlOrMeta: true
 		},
 		action: sidebarStore.toggle

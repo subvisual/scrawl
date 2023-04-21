@@ -1,7 +1,6 @@
 <script lang="ts">
 	import CmdIcon from './icons/CmdIcon.svelte';
 	import ButtonWithKey from './ButtonWithKey.svelte';
-	import { routes } from '$lib/routes';
 	import { editStore } from '$lib/stores/edit';
 </script>
 
@@ -12,7 +11,7 @@
 		text="Save"
 		key="S"
 		icon={CmdIcon}
-		variant="variant-soft-secondary"
+		variant="variant-ghost-secondary"
 		on:click={editStore.saveChanges}
 	/>
 	<ButtonWithKey

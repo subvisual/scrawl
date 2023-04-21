@@ -1,4 +1,4 @@
-import { decrypt, decryptFields, encrypt, encryptFields } from './crypto';
+import { decrypt, decryptFields, encryptFields } from './crypto';
 import supabase from './supabase';
 
 export type User = {

@@ -59,8 +59,8 @@ function createStore() {
 	}
 
 	function eventListener(event: KeyboardEvent) {
-		const { key, metaKey, ctrlKey, altKey } = event;
-		const evtKey = genSigKey({ ctrlKey, metaKey, key, altKey });
+		const { code, metaKey, ctrlKey, altKey } = event;
+		const evtKey = genSigKey({ ctrlKey, metaKey, key: code, altKey });
 		const match = get(store).bindings?.[evtKey];
 
 		if (match) {

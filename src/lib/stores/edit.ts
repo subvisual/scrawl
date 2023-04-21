@@ -120,7 +120,7 @@ function createEditStore() {
 	function setup() {
 		keybinderStore.listen({
 			signature: {
-				key: 'k',
+				key: 'KeyK',
 				ctrlOrMeta: true
 			},
 			route: '/note/:id',
@@ -133,7 +133,7 @@ function createEditStore() {
 
 		keybinderStore.listen({
 			signature: {
-				key: 's',
+				key: 'KeyS',
 				ctrlOrMeta: true
 			},
 			route: '/note/:id',

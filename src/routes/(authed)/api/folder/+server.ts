@@ -30,15 +30,11 @@ export const DELETE = (async ({ url, cookies }) => {
 
 	const id = url.searchParams.get('id');
 
-	console.log(id);
-
 	if (!id) {
 		throw error(401, 'No id');
 	}
 
 	const update = await deleteFolder(id);
-
-	console.log(update);
 
 	return json(update);
 }) satisfies RequestHandler;

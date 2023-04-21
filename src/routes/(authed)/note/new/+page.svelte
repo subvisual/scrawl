@@ -6,10 +6,10 @@
 	import { onMount } from 'svelte';
 
 	onMount(async () => {
-		const folderId = $page.url.searchParams.get('folder') || '';
+		const folderId = $page.url.searchParams.get('folder') || null;
 
 		const note = await api.post<{ id: string; name: string }>('/api/note', {
-			folder: folderId || ''
+			folder: folderId
 		});
 
 		if (note?.id) {

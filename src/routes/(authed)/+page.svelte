@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import ButtonWithKey from '$components/ButtonWithKey.svelte';
 	import CmdIcon from '$components/icons/CmdIcon.svelte';
 	import { routes } from '$lib/routes';
 	import keybinderStore from '$lib/stores/keybinder';
-	import sidebarStore from '$lib/stores/sidebar';
 	import { modalStore } from '@skeletonlabs/skeleton';
 
 	function openSearchModal() {
@@ -17,7 +15,7 @@
 
 	keybinderStore.listen({
 		signature: {
-			key: 'k',
+			key: 'KeyK',
 			ctrlOrMeta: true
 		},
 		route: '/',
@@ -26,12 +24,11 @@
 
 	keybinderStore.listen({
 		signature: {
-			key: 'n'
+			key: 'KeyN'
 		},
 		route: '/',
 		action: () => {
-			//goto(routes.newNote);
-			console.log('NEW');
+			goto(routes.newNote);
 		}
 	});
 </script>

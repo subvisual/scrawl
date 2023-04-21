@@ -41,8 +41,8 @@ function createStore() {
 
 		keybinderStore.listen({
 			signature: {
-				key: 'e',
-				ctrlOrMeta: true,
+				key: 'KeyE',
+				ctrlKey: true,
 				altKey: true
 			},
 			action: () => {
@@ -52,8 +52,8 @@ function createStore() {
 		});
 		keybinderStore.listen({
 			signature: {
-				key: 'w',
-				ctrlOrMeta: true,
+				key: 'KeyW',
+				ctrlKey: true,
 				altKey: true
 			},
 			action: () => {
@@ -63,8 +63,8 @@ function createStore() {
 		});
 		keybinderStore.listen({
 			signature: {
-				key: 'p',
-				ctrlOrMeta: true,
+				key: 'KeyP',
+				ctrlKey: true,
 				altKey: true
 			},
 			action: () => {
