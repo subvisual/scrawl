@@ -1,12 +1,15 @@
 <script>
 	import { page } from '$app/stores';
+	import { routes } from '$lib/routes';
 	import { editStore } from '$lib/stores/edit';
 	import sidebarStore from '$lib/stores/sidebar';
 	import tabsStore from '$lib/stores/tabs';
 	import NoteTab from './NoteTab.svelte';
 	import ViewSwitcher from './ViewSwitcher.svelte';
 
-	$: noteRoute = $page.url.pathname.includes('/note/');
+	$: noteRoute =
+		$page.url.pathname.includes('/note/') &&
+		$page.url.pathname !== routes.newNote;
 </script>
 
 <div class="w-full bg-surface-700 flex justify-between">

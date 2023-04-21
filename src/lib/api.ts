@@ -8,8 +8,11 @@ async function request<T>(
 
 export const api = {
 	get: <T>(url: RequestInfo | URL) => request<T>(url),
-	post: <T>(url: RequestInfo | URL, options: RequestInit) =>
-		request<T>(url, options),
+	post: <T>(url: RequestInfo | URL, options: Record<string, any>) =>
+		request<T>(url, {
+			method: 'post',
+			body: JSON.stringify(options)
+		}),
 	put: <T>(url: RequestInfo | URL, options: Record<string, any>) =>
 		request<T>(url, {
 			method: 'put',

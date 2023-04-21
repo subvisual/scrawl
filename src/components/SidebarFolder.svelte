@@ -74,7 +74,7 @@
 					<span class="text-sm text-surface-300 px-4">No notes yet</span>
 				{/if}
 				<a
-					href={routes.newNote}
+					href={`${routes.newNote}?folder=${folder.id}`}
 					class="unstyled flex justify-between gap-2 w-full items-center text-secondary-500 pl-2 mt-3"
 				>
 					<span class="text-sm"> Add a note </span>
@@ -82,16 +82,18 @@
 						<NoteIcon />
 					</Icon>
 				</a>
-				<button
-					type="button"
-					on:click={handleDelete}
-					class="flex justify-between gap-2 w-full items-center text-red-500 pl-2 mt-3"
-				>
-					<span class="text-sm"> Delete folder </span>
-					<Icon small>
-						<TrashIcon />
-					</Icon>
-				</button>
+				{#if folder.notes.length === 0}
+					<button
+						type="button"
+						on:click={handleDelete}
+						class="flex justify-between gap-2 w-full items-center text-red-500 pl-2 mt-3"
+					>
+						<span class="text-sm"> Delete folder </span>
+						<Icon small>
+							<TrashIcon />
+						</Icon>
+					</button>
+				{/if}
 			</section>
 		</svelte:fragment>
 	</AccordionItem>

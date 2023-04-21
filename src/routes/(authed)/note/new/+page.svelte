@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { goto, invalidate } from '$app/navigation';
+	import { page } from '$app/stores';
 	import { api } from '$lib/api';
 	import { routes } from '$lib/routes';
 	import { onMount } from 'svelte';
 
 	onMount(async () => {
+		const folderId = $page.url.searchParams.get('folder') || '';
+
 		const note = await api.post<{ id: string; name: string }>('/api/note', {
-			method: 'post'
+			folder: folderId || ''
 		});
 
 		if (note?.id) {
@@ -19,7 +22,6 @@
 <svelte:head>
 	<title>New Note...</title>
 </svelte:head>
-<div>
-	<h1>New note</h1>
-	<p>loading...</p>
-</div>
+<article class="p-4">
+	<h3>Creating the note...</h3>
+</article>

@@ -3,7 +3,7 @@ import { createNote, deleteNote, updateNote } from '$lib/db';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 import { generateSlug } from 'random-word-slugs';
 
-export const POST = (async ({ cookies }) => {
+export const POST = (async ({ cookies, request }) => {
 	const user = getUserFromCookies(cookies);
 
 	if (!user) {
@@ -18,9 +18,11 @@ export const POST = (async ({ cookies }) => {
 			noun: ['animals']
 		}
 	});
+	const data = await request.json();
 
 	const note = await createNote(user, {
 		user: user.address,
+		folder: data.folder || '',
 		name
 	});
 
