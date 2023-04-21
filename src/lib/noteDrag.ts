@@ -11,8 +11,12 @@ export async function updateNoteFolder(
 	});
 
 	if (req) {
-		invalidate('notes:all');
+		await invalidate('notes:all');
+
+		return true;
 	}
+
+	return false;
 }
 
 export function getDragData(

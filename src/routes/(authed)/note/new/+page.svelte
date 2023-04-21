@@ -16,6 +16,9 @@
 	});
 </script>
 
+<svelte:head>
+	<title>New Note...</title>
+</svelte:head>
 <div>
 	<h1>New note</h1>
 	<p>loading...</p>

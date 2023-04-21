@@ -40,6 +40,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>{data.note ? data.note.name : 'Note not found'}</title>
+</svelte:head>
+
 {#if data.notFound}
 	<p>not found</p>
 {:else if data?.note}

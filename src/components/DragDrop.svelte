@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { getDragData, updateNoteFolder } from '$lib/noteDrag';
+	import { toastStore } from '@skeletonlabs/skeleton';
 
 	export let folderId: string | null;
 
 	let hovered = false;
 
-	function handleDrop(event: DragEvent) {
+	async function handleDrop(event: DragEvent) {
 		hovered = false;
 		const note = getDragData(event);
 
@@ -13,7 +14,20 @@
 			return;
 		}
 
-		updateNoteFolder(note.id, folderId);
+		const update = await updateNoteFolder(note.id, folderId);
+
+		if (update) {
+			toastStore.trigger({
+				message: 'Folder updated'
+			});
+
+			return;
+		}
+
+		toastStore.trigger({
+			message: 'Something went wrong',
+			background: 'variant-filled-error'
+		});
 	}
 
 	function handleDragEnter(event: DragEvent) {

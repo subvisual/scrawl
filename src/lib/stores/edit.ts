@@ -2,7 +2,7 @@ import { goto, invalidate } from '$app/navigation';
 import { api } from '$lib/api';
 import { get, writable } from 'svelte/store';
 import { unsaved } from './unsaved';
-import { modalStore } from '@skeletonlabs/skeleton';
+import { modalStore, toastStore } from '@skeletonlabs/skeleton';
 import { routes } from '$lib/routes';
 import keybinderStore from './keybinder';
 import type { BeforeNavigate } from '@sveltejs/kit';
@@ -74,30 +74,29 @@ function createEditStore() {
 
 		if (!hasChanges) return;
 
-		const op = await api.put<{ id: string; slug: string }>('/api/note', {
+		const req = await api.put<{ id: string; slug: string }>('/api/note', {
 			id: data.local.id,
 			...data.local
 		});
 
-		if (!op) {
-			// handle error
+		if (!req) {
+			toastStore.trigger({
+				message: 'Something went wrong',
+				background: 'variant-filled-error'
+			});
+
 			return;
 		}
 
-		console.log(data);
+		toastStore.trigger({
+			message: 'Note saved'
+		});
 
 		await invalidate(`note:${data.local.slug}`);
 
 		localStorage.removeItem(`note-${data.id}`);
 
-		if (data.local.slug && data.local.slug !== data.original.slug) {
-			await invalidate('notes:all');
-
-			goto(routes.note(data.local.slug), {
-				replaceState: true
-			});
-			console.log('slug change');
-		} else if (data.local.name !== data.original.name) {
+		if (data.local.name !== data.original.name) {
 			await invalidate('notes:all');
 		}
 

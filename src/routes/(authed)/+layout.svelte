@@ -26,6 +26,9 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Scrawl</title>
+</svelte:head>
 <AppShell>
 	<svelte:fragment slot="header">
 		<Header />
