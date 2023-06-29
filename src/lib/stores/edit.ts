@@ -20,11 +20,11 @@ const store = writable<EditStore>({
 	ready: false,
 	original: {
 		content: '',
-		name: ''
+		title: ''
 	},
 	local: {
 		content: '',
-		name: ''
+		title: ''
 	},
 	onReset: [],
 	usingLocalStorageVersion: false
@@ -93,7 +93,7 @@ function createEditStore() {
 
 		localStorage.removeItem(`note-${data.id}`);
 
-		if (data.local.name !== data.original.name) {
+		if (data.local.title !== data.original.title) {
 			await invalidate('notes:all');
 		}
 

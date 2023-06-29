@@ -9,7 +9,7 @@
 	let input = '';
 
 	let files = $page.data.notes.map((note) => ({
-		label: note.name,
+		label: note.title,
 		value: note.id
 	}));
 

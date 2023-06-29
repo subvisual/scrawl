@@ -19,3 +19,7 @@ export async function saveUser(cookies: Cookies, user: any) {
 		httpOnly: true
 	});
 }
+
+export async function clearUser(cookies: Cookies) {
+	cookies.delete('user');
+}

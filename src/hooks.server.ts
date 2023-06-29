@@ -12,11 +12,11 @@ export const handle = (async ({ event, resolve }) => {
 		event.locals.user = user;
 	}
 
-	if (!user && event.url.pathname !== '/log-in') {
+	if (!user && !['/log-in', '/sign-up'].includes(event.url.pathname)) {
 		throw redirect(302, '/log-in');
 	}
 
-	if (user && event.url.pathname === '/log-in') {
+	if (user && ['/log-in', '/sign-up'].includes(event.url.pathname)) {
 		throw redirect(302, '/');
 	}
 

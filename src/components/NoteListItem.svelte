@@ -23,10 +23,10 @@
 	href={path}
 	class:active={$page.url.pathname === path}
 	class="unstyled max-w-[200px] whitespace-nowrap text-ellipsis overflow-hidden text-surface-300 text-sm"
-	title={note.name}
+	title={note.title}
 	data-sveltekit-keepfocus
 >
-	{note.name}
+	{note.title}
 </a>
 
 <style>

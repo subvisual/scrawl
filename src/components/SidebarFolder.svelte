@@ -54,7 +54,7 @@
 	<AccordionItem open={active}>
 		<svelte:fragment slot="summary">
 			<span class="text-surface-200 text-sm unstyled" class:text-white={active}>
-				{folder.name}
+				{folder.title}
 			</span>
 		</svelte:fragment>
 		<svelte:fragment slot="lead">

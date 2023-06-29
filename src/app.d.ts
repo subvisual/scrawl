@@ -1,5 +1,3 @@
-/* import { ExternalProvider } from '@ethersproject/providers'; */
-
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare global {
@@ -11,13 +9,13 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			user: {
-				address: string;
+				username: string;
 				key: string;
 			};
 		}
 		interface PageData {
 			user?: {
-				address: string;
+				username: string;
 				key: string;
 			};
 			notes: NoteType[];

@@ -1,6 +1,6 @@
-import { getUserFromCookies } from '$lib/cookies';
+import { clearUser, getUserFromCookies } from '$lib/cookies';
 import { createFolder } from '$lib/db';
-import type { Actions } from '@sveltejs/kit';
+import { redirect, type Actions } from '@sveltejs/kit';
 
 export const actions: Actions = {
 	create_folder: async ({ cookies, request }) => {
@@ -14,11 +14,11 @@ export const actions: Actions = {
 		}
 
 		const data = await request.formData();
-		const name = data.get('name') as string;
+		const title = data.get('name') as string;
 
 		const folder = await createFolder(user, {
-			name,
-			user: user.address
+			title,
+			user: user.username
 		});
 
 		if (!folder.data) {
@@ -29,5 +29,11 @@ export const actions: Actions = {
 		}
 
 		return { success: true };
+	},
+
+	signOut: async ({ cookies }) => {
+		clearUser(cookies);
+
+		throw redirect(302, '/')
 	}
 };

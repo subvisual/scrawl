@@ -9,7 +9,7 @@
 	import tabsStore from '$lib/stores/tabs';
 	import viewStore from '$lib/stores/view';
 
-	export let note: Pick<NoteType, 'id' | 'name'>;
+	export let note: Pick<NoteType, 'id' | 'title'>;
 	export let index: number;
 
 	function handleCloseActiveTab() {
@@ -58,13 +58,13 @@
 	<svelte:element
 		this={isActiveNote ? 'p' : 'a'}
 		class="flex-1 unstyled text-sm unstyled tab-text"
-		title={note.name}
+		title={note.title}
 		href={routes.note(note.id)}
 	>
 		{#if isActiveNote}
-			{$editStore.local.name}
+			{$editStore.local.title}
 		{:else}
-			{note.name}
+			{note.title}
 		{/if}
 	</svelte:element>
 

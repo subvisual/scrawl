@@ -2,25 +2,28 @@ import { decrypt, decryptFields, encryptFields } from './crypto';
 import supabase from './supabase';
 
 export type User = {
-	address: string;
+	username: string;
 	key: string;
 };
 
-export async function getUser(id: string) {
-	return supabase.from('users').select('*').eq('signature', id);
+export async function getUser(user: User) {
+	return supabase.from('users').select('*').match({
+		username: user.username,
+		key: user.key
+	});
 }
 
 export async function createUser(user: User) {
 	return supabase
 		.from('users')
-		.insert([{ signature: user.address, key: user.key }]);
+		.insert([{ key: user.key, username: user.username }]);
 }
 
 export async function getNotes(user: User) {
 	const { data } = await supabase
 		.from('notes')
-		.select(`id, name, folder, tags`)
-		.eq('user', user.address)
+		.select(`id, title, folder, tags`)
+		.eq('user', user.username)
 		.order('created_at', { ascending: false });
 
 	return data?.map((note) => ({
@@ -30,19 +33,22 @@ export async function getNotes(user: User) {
 }
 
 export async function createNote(user: User, params: Partial<NoteType>) {
-	return supabase
+	const req = await supabase
 		.from('notes')
 		.insert([encryptFields(user.key, params)])
 		.select('id');
+
+	console.log(req);
+	return req;
 }
 
 export async function getNote(user: User, id: string) {
 	const { data } = await supabase
 		.from('notes')
-		.select(`id, name, folder, tags, content`)
+		.select(`id, title, folder, tags, content`)
 		.match({
 			id,
-			user: user.address
+			user: user.username
 		});
 
 	return data?.map((note) => ({
@@ -64,8 +70,8 @@ export async function updateNote(
 export async function getFolders(user: User) {
 	const { data } = await supabase
 		.from('folders')
-		.select(`id, name`)
-		.eq('user', user.address)
+		.select(`id, title`)
+		.eq('user', user.username)
 		.order('created_at', { ascending: false });
 
 	if (!data) {
@@ -80,20 +86,20 @@ export async function getFolder(user: User, id: string) {
 		.from('folders')
 		.select(
 			`
-			id, name,
+			id, title,
 			notes (
-				id, name
+				id, title
 			)
 			`
 		)
 		.match({
 			id,
-			user: user.address
+			user: user.username
 		});
 
 	return data?.map((folder) => ({
 		id: folder.id,
-		name: decrypt(folder.name, user.key),
+		name: decrypt(folder.title, user.key),
 		notes: (folder.notes as any[]).map((note: any) => ({
 			...note,
 			...decryptFields<FolderType>(user.key, note)
@@ -115,66 +121,3 @@ export async function deleteNote(id: string) {
 export async function deleteFolder(id: string) {
 	return (await supabase.from('folders').delete().match({ id })).status;
 }
-
-/* 
-
-
-export async function deleteNote(id: string) {
-	return supabase.from('notes').delete().match({ id });
-}
-
-export async function createPublicNote(params: Record<string, string>) {
-	return supabase.from('public_notes').insert([params]);
-}
-
-export async function updatePublicNote(
-	id: string,
-	params: Record<string, string>
-) {
-	return supabase.from('public_notes').update([params]).match({ id });
-}
-
-export async function deletePublicNote(id: string) {
-	return supabase.from('public_notes').delete().match({ id });
-}
-
-export async function createFolder(params: Record<string, string>) {
-	return supabase.from('folders').insert([params]);
-}
-
-export async function deleteFolder(id: string) {
-	return supabase.from('folders').delete().match({ id });
-}
-
-export async function updateFolder(id: string, name: string) {
-	return supabase.from('folders').update({ name }).match({ id });
-}
-
-export async function createUser(signature: string, key: string) {
-	return supabase.from('users').insert([{ signature, key }]);
-}
-
-export async function getPublicNoteById(id: string) {
-	return supabase
-		.from('public_notes')
-		.select(`name, tags, content`)
-		.eq('id', id);
-}
-export async function getNotesBySig(sig: string) {
-	return supabase
-		.from('notes')
-		.select(`id, name, folder, tags, slug`)
-		.eq('user', sig);
-}
-
-export async function getPublicNotesBySig(sig: string) {
-	return supabase
-		.from('public_notes')
-		.select(`id, originalNote`)
-		.eq('user', sig);
-}
-
-export async function getFoldersBySig(sig: string) {
-	return supabase.from('folders').select(`id, name`).eq('user', sig);
-}
- */

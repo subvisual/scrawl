@@ -1,18 +1,18 @@
 type UserType = {
 	id: string;
-	signature: string;
-	address: string;
+	username: string;
+	key: string;
 };
 
 type FolderType = {
 	id: string;
-	name: string;
+	title: string;
 	user: string;
 };
 
 type NoteType = {
 	id: string;
-	name: string;
+	title: string;
 	folder: string;
 	tags: string;
 	content?: string;

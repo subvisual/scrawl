@@ -41,7 +41,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.note ? data.note.name : 'Note not found'}</title>
+	<title>{data.note ? data.note.title : 'Note not found'}</title>
 </svelte:head>
 
 {#if data.notFound}

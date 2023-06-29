@@ -26,13 +26,13 @@
 	]);
 
 	let listener = EditorView.updateListener.of(({ state }) => {
-		$editStore.local.name = state.doc.toString().substring(2);
+		$editStore.local.title = state.doc.toString().substring(2);
 	});
 
 	function reset() {
 		editor.setState(
 			EditorState.create({
-				doc: `# ${$editStore.local.name}`,
+				doc: `# ${$editStore.local.title}`,
 				extensions: [
 					preventDeleteFirstTwoChars,
 					basicSetup,
@@ -48,7 +48,7 @@
 	function createEditor(node: HTMLElement) {
 		editor = new EditorView({
 			parent: node,
-			doc: `# ${note.name}`
+			doc: `# ${note.title}`
 		});
 	}
 

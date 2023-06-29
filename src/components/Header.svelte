@@ -12,7 +12,7 @@
 		$page.url.pathname !== routes.newNote;
 </script>
 
-<div class="w-full bg-surface-700 flex justify-between">
+<div class="w-full bg-surface-700 flex justify-between min-h-[48px]">
 	{#if noteRoute}
 		<div
 			class="tabs relative flex self-end"

@@ -10,7 +10,7 @@
 {#each $page.data.notes || [] as note}
 	<p>
 		<a href={`/${note.id}`}>
-			{note.name}
+			{note.title}
 		</a>
 	</p>
 {/each}

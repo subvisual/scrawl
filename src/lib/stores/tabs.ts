@@ -2,7 +2,7 @@ import type { AfterNavigate } from '@sveltejs/kit';
 import { writable } from 'svelte/store';
 
 type Store = {
-	notes: { id: string; name: string }[];
+	notes: { id: string; title: string }[];
 };
 
 const store = writable<Store>({
@@ -25,7 +25,7 @@ function createStore() {
 			notes: [
 				{
 					id: note.id,
-					name: note.name
+					title: note.title
 				},
 				...state.notes
 			]

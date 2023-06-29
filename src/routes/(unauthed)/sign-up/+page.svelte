@@ -6,8 +6,8 @@
 </script>
 
 <div class="w-full h-full flex justify-center items-center flex-col gap-20">
-	<form action="?/signIn" method="post" use:enhance class="flex flex-col gap-4">
-		<h3>Sign in</h3>
+	<form action="?/signUp" method="post" use:enhance class="flex flex-col gap-4">
+		<h3>Sign up</h3>
 
 		<input
 			type="text"
@@ -25,12 +25,12 @@
 			required
 		/>
 
-		<button type="submit" class="btn variant-filled">Log in</button>
+		<button type="submit" class="btn variant-filled">Sign up</button>
 
 		{#if form?.error}
 			<p>{form.message}</p>
 		{/if}
 
-		<p>or <a href="/sign-up">sign up</a></p>
+		<p>or <a href="/log-in">log in</a></p>
 	</form>
 </div>

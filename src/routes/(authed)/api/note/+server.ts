@@ -10,7 +10,7 @@ export const POST = (async ({ cookies, request }) => {
 		throw error(401, 'No user');
 	}
 
-	const name = generateSlug(3, {
+	const title = generateSlug(3, {
 		format: 'sentence',
 		partsOfSpeech: ['adjective', 'adjective', 'noun'],
 		categories: {
@@ -21,16 +21,16 @@ export const POST = (async ({ cookies, request }) => {
 	const data = await request.json();
 
 	const note = await createNote(user, {
-		user: user.address,
+		user: user.username,
 		folder: data.folder,
-		name
+		title
 	});
 
 	if (!note.data) {
 		throw error(500, 'Failed to create note');
 	}
 
-	return json({ id: note.data[0].id, name });
+	return json({ id: note.data[0].id, title });
 }) satisfies RequestHandler;
 
 export const PUT = (async ({ request, cookies }) => {

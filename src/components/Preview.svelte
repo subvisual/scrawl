@@ -8,7 +8,7 @@
 </script>
 
 <div class="h-full prose markdown-body py-8 px-12 max-w-3xl mx-auto">
-	<Markdown md={`# ${$editStore.local.name}`} />
+	<Markdown md={`# ${$editStore.local.title}`} />
 	<Markdown
 		md={$editStore.local.content || ''}
 		plugins={[

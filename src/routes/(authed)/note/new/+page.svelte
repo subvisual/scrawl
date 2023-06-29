@@ -8,7 +8,7 @@
 	onMount(async () => {
 		const folderId = $page.url.searchParams.get('folder') || null;
 
-		const note = await api.post<{ id: string; name: string }>('/api/note', {
+		const note = await api.post<{ id: string; title: string }>('/api/note', {
 			folder: folderId
 		});
 
