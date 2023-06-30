@@ -27,7 +27,7 @@
 <section class="flex min-h-full bg-surface-800">
 	<SidebarActions toggle={sidebarStore.toggle} onNewFolder={toggleFolderForm} />
 	<nav
-		class="sidebar-nav min-h-full flex flex-col flex-1 border-l border-surface-700 overflow-hidden w-[290px]"
+		class="sidebar-nav min-h-full py-[2px] flex flex-col flex-1 border-l border-surface-700 overflow-hidden w-[290px]"
 		class:hidden={!$sidebarStore.open}
 	>
 		<div class="flex-1">

@@ -18,7 +18,7 @@
 </script>
 
 <form
-	class="px-3"
+	class="px-3 my-4"
 	action="/?/create_folder"
 	method="post"
 	on:keydown={handleKeyDown}
