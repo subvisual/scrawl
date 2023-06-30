@@ -1,4 +1,5 @@
-import { RC4, enc } from 'crypto-js';
+import pkg from 'crypto-js';
+const { enc, RC4 } = pkg;
 
 const IV = enc.Utf8.parse('123');
 
