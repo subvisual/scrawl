@@ -8,7 +8,7 @@ export const actions: Actions = {
 		const data = await request.formData();
 		const username = data.get('username') as string;
 		const key = data.get('key') as string;
-		const hashedKey = encrypt(key, '123456');
+		const hashedKey = encrypt(key, import.meta.env.VITE_RC4_KEY);
 
 		const user = await createUser({ username, key: hashedKey });
 
